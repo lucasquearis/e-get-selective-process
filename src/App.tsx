@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorHandler from "./pages/ErrorHandler";
 import "./global.css";
+import ErrorHandler from "./pages/Error";
 
 const router = createBrowserRouter([
   {
