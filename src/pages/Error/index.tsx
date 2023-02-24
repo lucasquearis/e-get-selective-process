@@ -2,9 +2,9 @@ import { useRouteError, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const PageContent = styled.div`
-  width: 1440px;
+  max-width: 1440px;
   height: 100vh;
-  background-color: rgb(241, 241, 241);
+  background-color: ${({ theme }) => theme.color.background};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,9 +20,9 @@ export default function ErrorHandler() {
   return (
     <PageContent>
       <h1>Oops!</h1>
-      <p>{`Desculpe, mas essa página não existe :(`}</p>
+      <p>{`Sorry, but this page does not exist :(`}</p>
       <p>
-        <i>Motivo: {error.statusText || error.message}</i>
+        <i>Reason: {error.statusText || error.message}</i>
       </p>
       <button onClick={() => navigate("/")}>Voltar ao inicio</button>
     </PageContent>
