@@ -1,5 +1,5 @@
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SyledButton } from "../../components/Button";
@@ -25,6 +25,7 @@ const ButtonContainer = styled.div`
 function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user: userRedux } = useAppSelector((state) => state);
   const [loginError, setLoginError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -77,6 +78,9 @@ function Login() {
   };
 
   useEffect(() => {
+    if (userRedux.userName) {
+      navigate("/home");
+    }
     userNameRef?.current && userNameRef.current.focus();
   }, []);
 

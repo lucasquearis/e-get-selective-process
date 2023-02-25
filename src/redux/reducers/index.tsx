@@ -8,11 +8,13 @@ interface UserState {
   id: number;
 }
 
+const userLocalStorage = JSON.parse(localStorage.getItem("user") || "{}");
+
 const initialState: UserState = {
-  fullName: "",
-  userName: "",
-  isAnAdministrator: false,
-  id: 0,
+  fullName: userLocalStorage?.fullName || "",
+  userName: userLocalStorage?.userName || "",
+  isAnAdministrator: userLocalStorage?.isAnAdministrator || false,
+  id: userLocalStorage?.id || 0,
 };
 
 export const userSlice = createSlice({
@@ -25,10 +27,17 @@ export const userSlice = createSlice({
       state.isAnAdministrator = action.payload.isAnAdministrator;
       state.id = action.payload.id;
     },
+    clearUser: (state) => {
+      state.fullName = "";
+      state.userName = "";
+      state.isAnAdministrator = false;
+      state.id = 0;
+      localStorage.removeItem("user");
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 
 export const user = (state: RootState) => state.user;
 
