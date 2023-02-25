@@ -13,6 +13,13 @@
       "password": "kyden3t2",
       "isAnAdministrator": true,
       "id": 2
+    },
+    {
+      "fullName": "Não sou Administrador",
+      "userName": "lucas",
+      "password": "12345",
+      "isAnAdministrator": false,
+      "id": 3
     }
   ]
 }

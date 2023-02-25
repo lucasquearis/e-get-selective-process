@@ -1,5 +1,5 @@
-import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
-import userSlice from "../reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import userSlice from "../reducers/users";
 import logger from "redux-logger";
 
 const store = configureStore({

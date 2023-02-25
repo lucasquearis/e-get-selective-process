@@ -10,7 +10,7 @@ import { StyledLabel } from "../../components/Label";
 import { ErrorText } from "../../components/Text/Error";
 import { Heading } from "../../components/Text/Heading";
 import { getUserByUserName, IUser } from "../../utils/api";
-import { setUser } from "../../redux/reducers";
+import { setUser } from "../../redux/reducers/users";
 
 interface IVerifyUserInDB {
   userName: string;

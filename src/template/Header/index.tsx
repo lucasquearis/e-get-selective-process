@@ -9,7 +9,7 @@ import {
   LogoutOutlined,
   StockOutlined,
 } from "@ant-design/icons";
-import { clearUser } from "../../redux/reducers";
+import { clearUser } from "../../redux/reducers/users";
 import { useNavigate } from "react-router-dom";
 
 const HeaderContent = styled.header`
@@ -53,17 +53,21 @@ function Header() {
               <HomeOutlined style={{ marginRight: 8 }} />
               Home
             </StyledButton>
-            <StyledButton onClick={() => navigate("/home/dashboard")}>
-              <DashboardOutlined style={{ marginRight: 8 }} />
-              Dashboard
-            </StyledButton>
+            {userRedux.isAnAdministrator && (
+              <>
+                <StyledButton onClick={() => navigate("/home/dashboard")}>
+                  <DashboardOutlined style={{ marginRight: 8 }} />
+                  Dashboard
+                </StyledButton>
+                <StyledButton onClick={() => navigate("/home/register")}>
+                  <FormOutlined style={{ marginRight: 8 }} />
+                  Register Products
+                </StyledButton>
+              </>
+            )}
             <StyledButton onClick={() => navigate("/home/stock")}>
               <StockOutlined style={{ marginRight: 8 }} />
               Stock
-            </StyledButton>
-            <StyledButton onClick={() => navigate("/home/register")}>
-              <FormOutlined style={{ marginRight: 8 }} />
-              Register Products
             </StyledButton>
             <StyledButton
               onClick={() => {
