@@ -55,7 +55,6 @@ function Register() {
     const [{ value: fullName }, { value: userName }, { value: password }] =
       event.target;
 
-    console.log({ fullName, userName, password });
     const errorMessage = checkUserData({ fullName, userName, password });
 
     if (errorMessage) {

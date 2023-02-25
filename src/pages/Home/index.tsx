@@ -11,7 +11,6 @@ function Home() {
     if (!userRedux.fullName) {
       navigate("/");
     }
-    console.log(userRedux);
   }, [userRedux]);
   return <DefaultContent>Welcome, {userRedux.fullName}!</DefaultContent>;
 }
