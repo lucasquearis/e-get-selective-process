@@ -1,11 +1,12 @@
 import axios from "axios";
 const URL = process.env.BD_URL_LOCAL;
 
-interface IUser {
+export interface IUser {
   fullName: string;
   userName: string;
   password: string;
   isAnAdministrator: boolean;
+  id?: string;
 }
 
 interface IGetUserByUserName {

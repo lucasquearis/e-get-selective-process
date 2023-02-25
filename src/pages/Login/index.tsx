@@ -1,4 +1,5 @@
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { useAppDispatch } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SyledButton } from "../../components/Button";
@@ -8,7 +9,8 @@ import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
 import { ErrorText } from "../../components/Text/Error";
 import { Heading } from "../../components/Text/Heading";
-import { getUserByUserName } from "../../utils/api";
+import { getUserByUserName, IUser } from "../../utils/api";
+import { setUser } from "../../redux/reducers";
 
 interface IVerifyUserInDB {
   userName: string;
@@ -22,10 +24,29 @@ const ButtonContainer = styled.div`
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [loginError, setLoginError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const setUserLocalStorageAndRedux = (user: IUser) => {
+    const { fullName, userName, isAnAdministrator, id } = user;
+    const formatUser = { fullName, userName, isAnAdministrator, id };
+    dispatch(setUser(formatUser));
+    const userJson = JSON.stringify(formatUser);
+    localStorage.setItem("user", userJson);
+  };
+
+  const verifyUserPassword = (user: IUser, password: string) => {
+    if (user?.password === password) {
+      setUserLocalStorageAndRedux(user);
+      navigate("/home");
+    } else {
+      setLoginError("Incorrect password");
+      return setIsFetching(false);
+    }
+  };
 
   const verifyUserInDB = async ({ userName, password }: IVerifyUserInDB) => {
     setIsFetching(true);
@@ -40,11 +61,8 @@ function Login() {
       (user) => user.userName === userName
     );
 
-    if (firstUserRegistered?.password === password) {
-      navigate("/dashboard");
-    } else {
-      setLoginError("Incorrect password");
-      return setIsFetching(false);
+    if (firstUserRegistered) {
+      verifyUserPassword(firstUserRegistered, password);
     }
   };
 
