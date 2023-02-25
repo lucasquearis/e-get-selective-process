@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
-import { BoxFormLogin } from "../../components/Form";
+import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
 import { ErrorText } from "../../components/Text/Error";
@@ -94,7 +94,7 @@ function Login() {
 
   return (
     <DefaultContent>
-      <BoxFormLogin onSubmit={handleSubmit}>
+      <BoxForm onSubmit={handleSubmit}>
         <Heading>Login</Heading>
         <StyledLabel>
           Username:
@@ -115,7 +115,7 @@ function Login() {
             Register
           </StyledButton>
         </ButtonContainer>
-      </BoxFormLogin>
+      </BoxForm>
     </DefaultContent>
   );
 }

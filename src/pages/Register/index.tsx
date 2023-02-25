@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
-import { BoxFormLogin } from "../../components/Form";
+import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
 import { ErrorText } from "../../components/Text/Error";
@@ -59,9 +59,7 @@ function Register() {
 
     const errorMessage = checkUserData({ fullName, userName, password });
 
-    if (errorMessage) {
-      return setRegisterError(errorMessage);
-    }
+    if (errorMessage) return setRegisterError(errorMessage);
 
     setIsFetchig(true);
     const response = await createUser({
@@ -104,7 +102,7 @@ function Register() {
 
   return (
     <DefaultContent>
-      <BoxFormLogin onSubmit={handleSubmit}>
+      <BoxForm onSubmit={handleSubmit}>
         <Heading>Register</Heading>
         <StyledLabel>
           Full name:
@@ -142,7 +140,7 @@ function Register() {
             Back to Home
           </StyledButton>
         </div>
-      </BoxFormLogin>
+      </BoxForm>
     </DefaultContent>
   );
 }

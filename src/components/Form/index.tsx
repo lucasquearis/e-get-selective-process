@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BoxFormLogin = styled.form`
+export const BoxForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 15px;

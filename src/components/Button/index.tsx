@@ -10,6 +10,8 @@ export const StyledButton = styled.button`
   font-weight: 500;
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${({ theme }) => theme.color.brand[600]};
