@@ -13,4 +13,8 @@ export const SyledButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.brand.secondary};
   }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.color.neutral[400]};
+  }
 `;

@@ -6,7 +6,14 @@ import { DefaultContent } from "../../components/DefaultContent";
 import { BoxFormLogin } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
-import { ErrorLoginText } from "../../components/Text/Error";
+import { ErrorText } from "../../components/Text/Error";
+import { Heading } from "../../components/Text/Heading";
+import { getUserByUserName } from "../../utils/api";
+
+interface IVerifyUserInDB {
+  userName: string;
+  password: string;
+}
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -16,12 +23,30 @@ const ButtonContainer = styled.div`
 function Login() {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    userNameRef?.current && userNameRef.current.focus();
-  }, []);
+  const verifyUserInDB = async ({ userName, password }: IVerifyUserInDB) => {
+    setIsFetching(true);
+    const response = await getUserByUserName({ userName });
+
+    if (!response?.data.length) {
+      setLoginError("Username not registered");
+      return setIsFetching(false);
+    }
+
+    const firstUserRegistered = response.data.find(
+      (user) => user.userName === userName
+    );
+
+    if (firstUserRegistered?.password === password) {
+      navigate("/dashboard");
+    } else {
+      setLoginError("Incorrect password");
+      return setIsFetching(false);
+    }
+  };
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -30,19 +55,25 @@ function Login() {
     if (!userName || !password) {
       return setLoginError("Username and Password are required!");
     }
+    verifyUserInDB({ userName, password });
   };
+
+  useEffect(() => {
+    userNameRef?.current && userNameRef.current.focus();
+  }, []);
 
   useEffect(() => {
     if (!loginError) return;
     const timer = setTimeout(() => {
       setLoginError("");
-    }, 5000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [loginError]);
 
   return (
     <DefaultContent>
       <BoxFormLogin onSubmit={handleSubmit}>
+        <Heading>Login</Heading>
         <StyledLabel>
           Username:
           <StyledInput ref={userNameRef} />
@@ -51,10 +82,14 @@ function Login() {
           Password:
           <StyledInput type="password" ref={passwordRef} />
         </StyledLabel>
-        <div>{loginError && <ErrorLoginText>{loginError}</ErrorLoginText>}</div>
+        <div style={{ minHeight: 25 }}>
+          {loginError && <ErrorText>{loginError}</ErrorText>}
+        </div>
         <ButtonContainer>
-          <SyledButton type="submit">Login</SyledButton>
-          <SyledButton onClick={() => navigate("/register")}>
+          <SyledButton disabled={isFetching} type="submit">
+            Login
+          </SyledButton>
+          <SyledButton type="button" onClick={() => navigate("/register")}>
             Register
           </SyledButton>
         </ButtonContainer>

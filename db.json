@@ -1,9 +1,18 @@
 {
   "users": [
     {
-      "id": 1,
-      "level": 3,
-      "userName": "Lucas de Almeida Santos"
+      "fullName": "Lucas de Almeida Santos",
+      "userName": "lucasquearis",
+      "password": "kyden3t2",
+      "isAnAdministrator": true,
+      "id": 1
+    },
+    {
+      "fullName": "Lucas de Almeida Santos",
+      "userName": "asdgfasdf",
+      "password": "kyden3t2",
+      "isAnAdministrator": true,
+      "id": 2
     }
   ]
 }

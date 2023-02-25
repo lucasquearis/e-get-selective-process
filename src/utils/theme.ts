@@ -8,6 +8,7 @@ export const defaultTheme: DefaultTheme = {
       secondary: "#F68D26",
     },
     error: "#F73131",
+    success: "#49AF41",
     neutral: {
       1000: "#242525",
       600: "#949595",
