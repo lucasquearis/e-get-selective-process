@@ -19,7 +19,7 @@ interface ICheckUserData {
 }
 
 const Paragraph = styled.p`
-  color: ${({ theme }) => theme.color.brand.primary};
+  color: ${({ theme }) => theme.color.brand[1000]};
   text-align: center;
 `;
 

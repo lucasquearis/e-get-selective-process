@@ -40,7 +40,7 @@ const Input = styled.input`
   display: none;
 
   &:checked + ${Switch} {
-    background: ${({ theme }) => theme.color.brand.primary};
+    background: ${({ theme }) => theme.color.brand[1000]};
 
     &:before {
       transform: translate(16px, -50%);

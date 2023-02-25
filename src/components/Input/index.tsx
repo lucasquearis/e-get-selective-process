@@ -12,6 +12,6 @@ export const StyledInput = styled.input`
     outline: none;
   }
   &:hover {
-    border: 1px solid ${({ theme }) => theme.color.brand.primary};
+    border: 1px solid ${({ theme }) => theme.color.brand[1000]};
   }
 `;
