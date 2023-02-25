@@ -2,7 +2,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { SyledButton } from "../../components/Button";
+import { StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
 import { BoxFormLogin } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
@@ -108,12 +108,12 @@ function Login() {
           {loginError && <ErrorText>{loginError}</ErrorText>}
         </div>
         <ButtonContainer>
-          <SyledButton disabled={isFetching} type="submit">
+          <StyledButton disabled={isFetching} type="submit">
             Login
-          </SyledButton>
-          <SyledButton type="button" onClick={() => navigate("/register")}>
+          </StyledButton>
+          <StyledButton type="button" onClick={() => navigate("/register")}>
             Register
-          </SyledButton>
+          </StyledButton>
         </ButtonContainer>
       </BoxFormLogin>
     </DefaultContent>

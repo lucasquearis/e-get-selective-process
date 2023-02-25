@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { SyledButton } from "../../components/Button";
+import { StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
 import { BoxFormLogin } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
@@ -11,6 +11,7 @@ import { Heading } from "../../components/Text/Heading";
 import Toggle from "../../components/Toggle";
 import { createUser } from "../../utils/api";
 import { SuccessText } from "../../components/Text/Success";
+import { useAppSelector } from "../../hooks";
 
 interface ICheckUserData {
   fullName: string;
@@ -25,6 +26,7 @@ const Paragraph = styled.p`
 
 function Register() {
   const navigate = useNavigate();
+  const { user: userRedux } = useAppSelector((state) => state);
   const [registerError, setRegisterError] = useState("");
   const [isAnAdministrator, setIsAnAdministrator] = useState(false);
   const [isFetching, setIsFetchig] = useState(false);
@@ -73,6 +75,12 @@ function Register() {
       setSuccessMessage("Account created successfully");
     }
   };
+
+  useEffect(() => {
+    if (userRedux.userName) {
+      navigate("/home");
+    }
+  }, []);
 
   useEffect(() => {
     if (!registerError) return;
@@ -127,12 +135,12 @@ function Register() {
           )}
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <SyledButton disabled={isFetching} type="submit">
+          <StyledButton disabled={isFetching} type="submit">
             Register
-          </SyledButton>
-          <SyledButton type="button" onClick={() => navigate("/")}>
+          </StyledButton>
+          <StyledButton type="button" onClick={() => navigate("/")}>
             Back to Home
-          </SyledButton>
+          </StyledButton>
         </div>
       </BoxFormLogin>
     </DefaultContent>
