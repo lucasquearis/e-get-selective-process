@@ -17,6 +17,7 @@ export interface IProduct {
   dueDate: string;
   comments: string;
   base64Image: string | undefined;
+  id?: number;
 }
 
 interface IGetUserByUserName {
@@ -68,6 +69,14 @@ export const addProduct = async ({
       comments,
       base64Image,
     });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllProducts = async () => {
+  try {
+    return axios.get<IProduct[]>(`${URL}products`);
   } catch (error) {
     console.error(error);
   }

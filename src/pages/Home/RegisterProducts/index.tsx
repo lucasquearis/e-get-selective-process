@@ -76,9 +76,15 @@ function RegisterProducts() {
     if (!salePrice) return "Sale price is required!";
     if (!purchaseDate) return "Purchase Date is required!";
     if (!dueDate) return "Due date is required!";
-    if (!moment(purchaseDate, "DD/MM/YYYY").isValid())
+    if (
+      !moment(purchaseDate, "DD/MM/YYYY").isValid() ||
+      purchaseDate.replace(/[^\d]/g, "").length !== 8
+    )
       return "Purchase date invalid format!";
-    if (!moment(dueDate, "DD/MM/YYYY").isValid())
+    if (
+      !moment(dueDate, "DD/MM/YYYY").isValid() ||
+      dueDate.replace(/[^\d]/g, "").length !== 8
+    )
       return "Due date invalid format!";
   };
 

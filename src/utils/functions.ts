@@ -15,3 +15,10 @@ export const getBase64 = (
     console.log("Error: ", error);
   };
 };
+
+export const toRealCurrency = (value: number) => {
+  return value.toLocaleString("pt-br", {
+    style: "currency",
+    currency: "BRL",
+  });
+};

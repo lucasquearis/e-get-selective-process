@@ -55,7 +55,7 @@ function FileUploader({
       </SuccessText>
     ) : (
       <>
-        <StyledButton onClick={handleClick}>Upload a file</StyledButton>
+        <StyledButton onClick={handleClick}>Upload a image</StyledButton>
         <input
           type="file"
           accept="image/*"
