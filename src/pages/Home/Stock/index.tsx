@@ -1,6 +1,7 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DefaultContent } from "../../../components/DefaultContent";
+import EditProductContent from "../../../components/EditProductContent";
 import { StyledInput } from "../../../components/Input";
 import { StyledInputMask } from "../../../components/InputMask";
 import { StyledLabel } from "../../../components/Label";
@@ -8,7 +9,8 @@ import Loading from "../../../components/Loading";
 import Modal from "../../../components/Modal";
 import ProductItem, { ProductHeader } from "../../../components/ProductItem";
 import { Heading } from "../../../components/Text/Heading";
-import { getAllProducts, IProduct } from "../../../utils/api";
+import { deleteProduct, getAllProducts, IProduct } from "../../../utils/api";
+import { toRealCurrency } from "../../../utils/functions";
 
 const HeaderStock = styled.div`
   display: flex;
@@ -31,6 +33,26 @@ const ProductsList = styled.ul`
   border-radius: 4px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.color.brand[100]};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.color.brand[1000]};
+    border-radius: 10px;
+  }
+`;
+
+export const ModalContent = styled.div`
+  color: ${({ theme }) => theme.color.error};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  word-break: break-all;
 `;
 
 function Stock() {
@@ -38,25 +60,42 @@ function Stock() {
   const [isFetching, setIsFetching] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setopenEditModal] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<IProduct | undefined>();
 
-  const handleDelete = (e: SyntheticEvent) => {
+  const fetchApi = async () => {
+    setIsFetching(true);
+    const response = await getAllProducts();
+    if (response?.data) {
+      setProducts(response.data);
+      setIsFetching(false);
+    }
+  };
+
+  const confirmDelete = async () => {
+    console.log("deletou", currentProduct?.productName);
+    if (currentProduct?.id) {
+      const response = await deleteProduct(currentProduct?.id);
+      if (response?.status === 200) {
+        setOpenDeleteModal(false);
+        fetchApi();
+      }
+    }
+  };
+
+  const handleDelete = (product: IProduct) => {
+    setCurrentProduct(product);
     setOpenDeleteModal(true);
   };
 
-  const handleEdit = (e: SyntheticEvent) => {
+  const handleEdit = (product: IProduct) => {
+    setCurrentProduct(product);
     setopenEditModal(true);
   };
 
   useEffect(() => {
-    (async () => {
-      setIsFetching(true);
-      const response = await getAllProducts();
-      if (response?.data) {
-        setProducts(response.data);
-        setIsFetching(false);
-      }
-    })();
+    fetchApi();
   }, []);
+
   return (
     <>
       <DefaultContent
@@ -131,20 +170,35 @@ function Stock() {
       </DefaultContent>
       {openDeleteModal && (
         <Modal
-          title="DELETE"
-          onConfirm={() => {}}
+          title="Are you sure?"
+          onConfirm={() => confirmDelete()}
           onClose={() => setOpenDeleteModal(false)}
         >
-          DELETE
+          <ModalContent>
+            <p>
+              {`Are you sure you want to delete the item with "id = ${currentProduct?.id}" and "name = ${currentProduct?.productName}"?`}
+            </p>
+            <p>this action is IRREVERSIBLE!</p>
+          </ModalContent>
         </Modal>
       )}
       {openEditModal && (
         <Modal
-          title="EDIT"
+          title={`Edit ${currentProduct?.productName}`}
           onConfirm={() => {}}
           onClose={() => setopenEditModal(false)}
         >
-          EDIT
+          {currentProduct && (
+            <EditProductContent
+              base64Image={currentProduct?.base64Image}
+              comments={currentProduct?.comments}
+              costPrice={currentProduct?.costPrice}
+              dueDate={currentProduct?.dueDate}
+              productName={currentProduct?.productName}
+              purchaseDate={currentProduct?.purchaseDate}
+              salePrice={currentProduct?.salePrice}
+            />
+          )}
         </Modal>
       )}
     </>

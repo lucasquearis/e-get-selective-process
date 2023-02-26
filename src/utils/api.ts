@@ -81,3 +81,11 @@ export const getAllProducts = async () => {
     console.error(error);
   }
 };
+
+export const deleteProduct = async (id: number) => {
+  try {
+    return axios.delete(`${URL}products/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+};

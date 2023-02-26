@@ -1,12 +1,12 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { SyntheticEvent, useState } from "react";
 import styled from "styled-components";
 import { IProduct } from "../../utils/api";
 import { toRealCurrency } from "../../utils/functions";
+import { DeleteIcon } from "../Icon/Delete";
+import { EditIcon } from "../Icon/Edit";
 
 interface IProductItem extends IProduct {
-  handleEdit: (e: SyntheticEvent) => void;
-  handleDelete: (e: SyntheticEvent) => void;
+  handleEdit: (product: IProduct) => void;
+  handleDelete: (product: IProduct) => void;
 }
 
 const StyledList = styled.li`
@@ -32,26 +32,6 @@ const Paragraph = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-`;
-
-const EditIcon = styled(EditOutlined)`
-  cursor: pointer;
-  color: ${({ theme }) => theme.color.brand[1000]};
-  font-size: x-large;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  &:hover {
-    font-size: xx-large;
-  }
-`;
-
-const DeleteIcon = styled(DeleteOutlined)`
-  cursor: pointer;
-  color: ${({ theme }) => theme.color.error};
-  font-size: x-large;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  &:hover {
-    font-size: xx-large;
-  }
 `;
 
 export function ProductHeader() {
@@ -97,10 +77,36 @@ function ProductItem({
         <Paragraph>{toRealCurrency(costPrice)}</Paragraph>
         <Paragraph>{toRealCurrency(salePrice)}</Paragraph>
         <Paragraph>
-          <EditIcon onClick={handleEdit} />
+          <EditIcon
+            onClick={() =>
+              handleEdit({
+                id,
+                productName,
+                base64Image,
+                comments,
+                costPrice,
+                dueDate,
+                purchaseDate,
+                salePrice,
+              })
+            }
+          />
         </Paragraph>
         <Paragraph>
-          <DeleteIcon onClick={handleDelete} />
+          <DeleteIcon
+            onClick={() =>
+              handleDelete({
+                id,
+                productName,
+                base64Image,
+                comments,
+                costPrice,
+                dueDate,
+                purchaseDate,
+                salePrice,
+              })
+            }
+          />
         </Paragraph>
       </StyledList>
     </>
