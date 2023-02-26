@@ -20,21 +20,14 @@ const FlexWithGap = styled.div`
   gap: 8px;
   align-items: center;
 `;
-
-interface IEditProductModal extends IProduct {
+interface IEditProductModal {
   setOpenModal: Dispatch<React.SetStateAction<boolean>>;
   fetchApi: () => Promise<void>;
+  currentProduct: IProduct;
 }
 
 function EditProductContent({
-  base64Image: img,
-  productName: name,
-  costPrice: cost,
-  salePrice: price,
-  purchaseDate: purchase,
-  dueDate: due,
-  comments: comment,
-  id,
+  currentProduct,
   setOpenModal,
   fetchApi,
 }: IEditProductModal) {
@@ -44,31 +37,31 @@ function EditProductContent({
     File | undefined
   >();
   const [base64Image, setBase64Image] = useState({
-    value: img,
+    value: currentProduct.base64Image,
     isEditing: false,
   });
   const [productName, setProductName] = useState({
-    value: name,
+    value: currentProduct.productName,
     isEditing: false,
   });
   const [costPrice, setCostPrice] = useState({
-    value: cost,
+    value: currentProduct.costPrice,
     isEditing: false,
   });
   const [salePrice, setSalePrice] = useState({
-    value: price,
+    value: currentProduct.salePrice,
     isEditing: false,
   });
   const [purchaseDate, setPurchaseDate] = useState({
-    value: purchase,
+    value: currentProduct.purchaseDate,
     isEditing: false,
   });
   const [dueDate, setDueDate] = useState({
-    value: due,
+    value: currentProduct.dueDate,
     isEditing: false,
   });
   const [comments, setComments] = useState({
-    value: comment,
+    value: currentProduct.comments,
     isEditing: false,
   });
 
@@ -103,7 +96,7 @@ function EditProductContent({
         productName: productName.value,
         purchaseDate: purchaseDate.value,
         salePrice: salePrice.value.replace(",", "."),
-        id,
+        id: currentProduct.id,
       });
       setIsFetching(false);
       setOpenModal(false);
@@ -132,7 +125,6 @@ function EditProductContent({
                   fileUploadedValue={fileUploadedValue}
                   setFileUploadedValue={setFileUploadedValue}
                   handleFile={(e) =>
-                    // @ts-ignore
                     setBase64Image((prevState) => handleValue(prevState, e))
                   }
                 />

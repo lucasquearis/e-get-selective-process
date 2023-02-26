@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DefaultContent } from "../../../components/DefaultContent";
+import DeleteProductContent from "../../../components/DeleteProductContent";
 import EditProductContent from "../../../components/EditProductContent";
 import { StyledInput } from "../../../components/Input";
 import { StyledInputMask } from "../../../components/InputMask";
@@ -10,7 +11,7 @@ import Modal from "../../../components/Modal";
 import ProductItem, { ProductHeader } from "../../../components/ProductItem";
 import { ProductsList, StyledList } from "../../../components/ProductsList";
 import { Heading } from "../../../components/Text/Heading";
-import { deleteProduct, getAllProducts, IProduct } from "../../../utils/api";
+import { getAllProducts, IProduct } from "../../../utils/api";
 
 const HeaderStock = styled.div`
   display: flex;
@@ -47,17 +48,6 @@ function Stock() {
     if (response?.data) {
       setProducts(response.data);
       setIsFetching(false);
-    }
-  };
-
-  const confirmDelete = async () => {
-    console.log("deletou", currentProduct?.productName);
-    if (currentProduct?.id) {
-      const response = await deleteProduct(currentProduct?.id);
-      if (response?.status === 200) {
-        setOpenDeleteModal(false);
-        fetchApi();
-      }
     }
   };
 
@@ -151,34 +141,26 @@ function Stock() {
       </DefaultContent>
       {openDeleteModal && (
         <Modal
-          title="Are you sure?"
-          onConfirm={() => confirmDelete()}
+          title={`Are you sure you want to remove "${currentProduct?.productName}" ?`}
           onClose={() => setOpenDeleteModal(false)}
         >
-          <ModalContent>
-            <p>
-              {`Are you sure you want to delete the item with "id = ${currentProduct?.id}" and "name = ${currentProduct?.productName}"?`}
-            </p>
-            <p>this action is IRREVERSIBLE!</p>
-          </ModalContent>
+          {currentProduct && (
+            <DeleteProductContent
+              fetchApi={fetchApi}
+              setOpenModal={setOpenDeleteModal}
+              currentProduct={currentProduct}
+            />
+          )}
         </Modal>
       )}
       {openEditModal && (
         <Modal
           title={`Edit ${currentProduct?.productName}`}
-          onConfirm={() => {}}
           onClose={() => setOpenEditModal(false)}
         >
           {currentProduct && (
             <EditProductContent
-              base64Image={currentProduct.base64Image}
-              comments={currentProduct.comments}
-              costPrice={currentProduct.costPrice}
-              dueDate={currentProduct.dueDate}
-              productName={currentProduct.productName}
-              purchaseDate={currentProduct.purchaseDate}
-              salePrice={currentProduct.salePrice}
-              id={currentProduct.id}
+              currentProduct={currentProduct}
               setOpenModal={setOpenEditModal}
               fetchApi={fetchApi}
             />

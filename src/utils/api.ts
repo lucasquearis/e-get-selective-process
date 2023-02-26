@@ -24,6 +24,10 @@ interface IGetUserByUserName {
   userName: string;
 }
 
+interface ISold extends IProduct {
+  soldDate: string;
+}
+
 export const createUser = async ({
   fullName,
   userName,
@@ -109,6 +113,77 @@ export const editProduct = async ({
       salePrice,
       costPrice,
       productName,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addToLoss = (product: IProduct) => {
+  try {
+    const {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
+    } = product;
+    return axios.post(`${URL}loss`, {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addToSold = (product: ISold) => {
+  try {
+    const {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
+      soldDate,
+    } = product;
+    return axios.post(`${URL}sold`, {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
+      soldDate,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addToExpired = (product: IProduct) => {
+  try {
+    const {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
+    } = product;
+    return axios.post(`${URL}expired`, {
+      productName,
+      comments,
+      costPrice,
+      dueDate,
+      purchaseDate,
+      salePrice,
     });
   } catch (error) {
     console.error(error);

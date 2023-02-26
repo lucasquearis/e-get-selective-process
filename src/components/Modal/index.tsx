@@ -1,7 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyledButton } from "../Button";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -54,7 +53,6 @@ function Modal({
   children: ReactNode;
   title: string | ReactNode;
   onClose: () => void;
-  onConfirm: () => void;
 }) {
   return (
     <ModalBackground>
