@@ -35,7 +35,7 @@ const ModalHeader = styled.div`
   margin-bottom: 14px;
 `;
 
-const ModalFooter = styled.div`
+export const ModalFooter = styled.div`
   display: flex;
   justify-content: end;
   width: 100%;
@@ -50,7 +50,6 @@ function Modal({
   children,
   title,
   onClose,
-  onConfirm,
 }: {
   children: ReactNode;
   title: string | ReactNode;
@@ -65,10 +64,6 @@ function Modal({
           <CloseOutlined onClick={onClose} />
         </ModalHeader>
         {children}
-        <ModalFooter>
-          <StyledButton onClick={onClose}>Cancel</StyledButton>
-          <StyledButton onClick={onConfirm}>Confirm</StyledButton>
-        </ModalFooter>
       </ModalBox>
     </ModalBackground>
   );

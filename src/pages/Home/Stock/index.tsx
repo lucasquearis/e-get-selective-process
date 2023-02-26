@@ -38,7 +38,7 @@ function Stock() {
   const [products, setProducts] = useState<IProduct[] | never[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openEditModal, setopenEditModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<IProduct | undefined>();
 
   const fetchApi = async () => {
@@ -68,7 +68,7 @@ function Stock() {
 
   const handleEdit = (product: IProduct) => {
     setCurrentProduct(product);
-    setopenEditModal(true);
+    setOpenEditModal(true);
   };
 
   useEffect(() => {
@@ -167,17 +167,20 @@ function Stock() {
         <Modal
           title={`Edit ${currentProduct?.productName}`}
           onConfirm={() => {}}
-          onClose={() => setopenEditModal(false)}
+          onClose={() => setOpenEditModal(false)}
         >
           {currentProduct && (
             <EditProductContent
-              base64Image={currentProduct?.base64Image}
-              comments={currentProduct?.comments}
-              costPrice={currentProduct?.costPrice}
-              dueDate={currentProduct?.dueDate}
-              productName={currentProduct?.productName}
-              purchaseDate={currentProduct?.purchaseDate}
-              salePrice={currentProduct?.salePrice}
+              base64Image={currentProduct.base64Image}
+              comments={currentProduct.comments}
+              costPrice={currentProduct.costPrice}
+              dueDate={currentProduct.dueDate}
+              productName={currentProduct.productName}
+              purchaseDate={currentProduct.purchaseDate}
+              salePrice={currentProduct.salePrice}
+              id={currentProduct.id}
+              setOpenModal={setOpenEditModal}
+              fetchApi={fetchApi}
             />
           )}
         </Modal>

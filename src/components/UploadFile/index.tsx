@@ -11,7 +11,7 @@ import { getBase64 } from "../../utils/functions";
 import { StyledButton } from "../Button";
 import { SuccessText } from "../Text/Success";
 
-function FileUploader({
+function UploadFile({
   handleFile,
   fileUploadedValue,
   setFileUploadedValue,
@@ -69,4 +69,4 @@ function FileUploader({
     );
   }
 }
-export default FileUploader;
+export default UploadFile;

@@ -11,8 +11,8 @@ export interface IUser {
 
 export interface IProduct {
   productName: string;
-  costPrice: number;
-  salePrice: number;
+  costPrice: string;
+  salePrice: string;
   purchaseDate: string;
   dueDate: string;
   comments: string;
@@ -85,6 +85,31 @@ export const getAllProducts = async () => {
 export const deleteProduct = async (id: number) => {
   try {
     return axios.delete(`${URL}products/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const editProduct = async ({
+  base64Image,
+  comments,
+  dueDate,
+  purchaseDate,
+  salePrice,
+  costPrice,
+  productName,
+  id,
+}: IProduct) => {
+  try {
+    return axios.put(`${URL}products/${id}`, {
+      base64Image,
+      comments,
+      dueDate,
+      purchaseDate,
+      salePrice,
+      costPrice,
+      productName,
+    });
   } catch (error) {
     console.error(error);
   }

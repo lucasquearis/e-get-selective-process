@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import React, {
-  FormHTMLAttributes,
-  Ref,
-  RefObject,
+import {
   SetStateAction,
   SyntheticEvent,
   useEffect,
@@ -20,21 +17,22 @@ import moment from "moment";
 import { StyledTextArea } from "../../../components/TextArea";
 import { Heading } from "../../../components/Text/Heading";
 import { StyledButton } from "../../../components/Button";
-import FileUploader from "../../../components/UploadFile";
+import UploadFile from "../../../components/UploadFile";
 import { addProduct } from "../../../utils/api";
 import { ErrorText } from "../../../components/Text/Error";
 import { SuccessText } from "../../../components/Text/Success";
-import ReactInputMask from "react-input-mask";
+import { checkRequiredFields } from "../../../utils/functions";
+import { StyledCurrencyInput } from "../../../components/CurrencyInput";
 
 const SimpleFlexGap = styled.div`
   display: flex;
   gap: 8px;
 `;
 
-interface IRequiredFields {
+export interface IRequiredFields {
   productName: string;
-  costPrice: number;
-  salePrice: number;
+  costPrice: string;
+  salePrice: string;
   purchaseDate: string;
   dueDate: string;
 }
@@ -45,6 +43,8 @@ function RegisterProducts() {
     File | undefined
   >();
   const [base64Image, setBase64Image] = useState<string | undefined>();
+  const [costPrice, setCostPrice] = useState("");
+  const [salePrice, setSalePrice] = useState("");
   const [purchaseDate, setPurchaseDate] = useState<string>(
     moment().format("DD/MM/YYYY")
   );
@@ -64,37 +64,13 @@ function RegisterProducts() {
     setFileUploadedValue(undefined);
   };
 
-  const checkRequiredFields = ({
-    productName,
-    costPrice,
-    salePrice,
-    purchaseDate,
-    dueDate,
-  }: IRequiredFields) => {
-    if (!productName) return "Product name is required!";
-    if (!costPrice) return "Cost price is required!";
-    if (!salePrice) return "Sale price is required!";
-    if (!purchaseDate) return "Purchase Date is required!";
-    if (!dueDate) return "Due date is required!";
-    if (
-      !moment(purchaseDate, "DD/MM/YYYY").isValid() ||
-      purchaseDate.replace(/[^\d]/g, "").length !== 8
-    )
-      return "Purchase date invalid format!";
-    if (
-      !moment(dueDate, "DD/MM/YYYY").isValid() ||
-      dueDate.replace(/[^\d]/g, "").length !== 8
-    )
-      return "Due date invalid format!";
-  };
-
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     // @ts-ignore
     const [
       { value: productName },
-      { value: costPrice },
-      { value: salePrice },
+      { value: x },
+      { value: y },
       { value: purchaseDate },
       { value: dueDate },
       { value: comments },
@@ -111,8 +87,8 @@ function RegisterProducts() {
     setIsFetching(true);
     const response = await addProduct({
       productName,
-      costPrice: Number(costPrice),
-      salePrice: Number(salePrice),
+      costPrice: costPrice.replace(",", "."),
+      salePrice: salePrice.replace(",", "."),
       purchaseDate,
       dueDate,
       comments,
@@ -162,13 +138,23 @@ function RegisterProducts() {
             <div style={{ display: "flex" }}>
               Cost price<ErrorText>*</ErrorText>:
             </div>
-            <StyledInput type="number" />
+            <StyledCurrencyInput
+              value={costPrice}
+              // @ts-ignore
+              onValueChange={(value) => setCostPrice(value)}
+              prefix="R$"
+            />
           </StyledLabel>
           <StyledLabel style={{ width: "50%" }}>
             <div style={{ display: "flex" }}>
               Sale price<ErrorText>*</ErrorText>:
             </div>
-            <StyledInput type="number" />
+            <StyledCurrencyInput
+              value={salePrice}
+              // @ts-ignore
+              onValueChange={(value) => setSalePrice(value)}
+              prefix="R$"
+            />
           </StyledLabel>
         </SimpleFlexGap>
         <SimpleFlexGap>
@@ -199,7 +185,7 @@ function RegisterProducts() {
         </StyledLabel>
         <StyledLabel>
           Upload Image:
-          <FileUploader
+          <UploadFile
             handleFile={(e: SetStateAction<string | undefined>) =>
               setBase64Image(e)
             }

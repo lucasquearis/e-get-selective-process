@@ -60,8 +60,8 @@ function ProductItem({
         <Paragraph>{purchaseDate}</Paragraph>
         <Paragraph>{dueDate}</Paragraph>
         <Paragraph>{comments}</Paragraph>
-        <Paragraph>{toRealCurrency(costPrice)}</Paragraph>
-        <Paragraph>{toRealCurrency(salePrice)}</Paragraph>
+        <Paragraph>{toRealCurrency(Number(costPrice))}</Paragraph>
+        <Paragraph>{toRealCurrency(Number(salePrice))}</Paragraph>
         <Paragraph>
           <EditIcon
             onClick={() =>
