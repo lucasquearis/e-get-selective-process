@@ -8,9 +8,9 @@ import { StyledLabel } from "../../../components/Label";
 import Loading from "../../../components/Loading";
 import Modal from "../../../components/Modal";
 import ProductItem, { ProductHeader } from "../../../components/ProductItem";
+import { ProductsList, StyledList } from "../../../components/ProductsList";
 import { Heading } from "../../../components/Text/Heading";
 import { deleteProduct, getAllProducts, IProduct } from "../../../utils/api";
-import { toRealCurrency } from "../../../utils/functions";
 
 const HeaderStock = styled.div`
   display: flex;
@@ -23,27 +23,6 @@ const HeaderStock = styled.div`
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   margin: 24px auto;
   width: 90%;
-`;
-
-const ProductsList = styled.ul`
-  width: 98%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.color.white};
-  margin: 0 auto 24px auto;
-  border-radius: 4px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.color.brand[100]};
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.color.brand[1000]};
-    border-radius: 10px;
-  }
 `;
 
 export const ModalContent = styled.div`
@@ -163,7 +142,9 @@ function Stock() {
                 )}
               </>
             ) : (
-              <li>Nothing</li>
+              <StyledList style={{ justifyContent: "center" }}>
+                No products registered yet!
+              </StyledList>
             )}
           </ProductsList>
         )}

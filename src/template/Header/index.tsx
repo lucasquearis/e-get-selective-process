@@ -34,7 +34,8 @@ const HeaderOptionsContainer = styled.div`
   align-items: center;
   gap: 16px;
   width: 100%;
-  justify-content: end;
+  justify-content: start;
+  margin-left: 24px;
 `;
 
 function Header() {
@@ -69,16 +70,18 @@ function Header() {
               <StockOutlined style={{ marginRight: 8 }} />
               Stock
             </StyledButton>
-            <StyledButton
-              onClick={() => {
-                dispatch(clearUser());
-                navigate("/");
-              }}
-            >
-              <LogoutOutlined style={{ marginRight: 8 }} /> Log-out
-            </StyledButton>
           </HeaderOptionsContainer>
         )}
+        <div style={{ display: "flex", width: "100%", justifyContent: "end" }}>
+          <StyledButton
+            onClick={() => {
+              dispatch(clearUser());
+              navigate("/");
+            }}
+          >
+            <LogoutOutlined style={{ marginRight: 8 }} /> Log-out
+          </StyledButton>
+        </div>
       </HeaderBox>
     </HeaderContent>
   );

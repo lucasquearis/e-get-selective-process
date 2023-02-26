@@ -1,28 +1,14 @@
 import styled from "styled-components";
 import { IProduct } from "../../utils/api";
 import { toRealCurrency } from "../../utils/functions";
-import { DeleteIcon } from "../Icon/Delete";
 import { EditIcon } from "../Icon/Edit";
+import { MinusIcon } from "../Icon/Minus";
+import { StyledHeader, StyledList } from "../ProductsList";
 
 interface IProductItem extends IProduct {
   handleEdit: (product: IProduct) => void;
   handleDelete: (product: IProduct) => void;
 }
-
-const StyledList = styled.li`
-  width: 100%;
-  border-bottom: 1px solid ${({ theme }) => theme.color.neutral[300]};
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledHeader = styled(StyledList)`
-  position: sticky;
-  top: 0;
-  background-color: ${({ theme }) => theme.color.white};
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-`;
 
 const Paragraph = styled.p`
   width: 10%;
@@ -93,7 +79,7 @@ function ProductItem({
           />
         </Paragraph>
         <Paragraph>
-          <DeleteIcon
+          <MinusIcon
             onClick={() =>
               handleDelete({
                 id,
