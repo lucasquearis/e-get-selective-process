@@ -40,6 +40,11 @@ export const checkRequiredFields = ({
     dueDate.replace(/[^\d]/g, "").length !== 8
   )
     return "Due date invalid format!";
+
+  if (
+    moment(dueDate, "DD/MM/YYYY").isBefore(moment(purchaseDate, "DD/MM/YYYY"))
+  )
+    return "Purchase date must be less than due date!";
 };
 
 export const toRealCurrency = (value: number) => {

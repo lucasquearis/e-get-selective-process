@@ -50,6 +50,15 @@
       "costPrice": "5000",
       "productName": "TESTE",
       "id": 2
+    },
+    {
+      "productName": "TESTE DATA",
+      "costPrice": "20021996",
+      "salePrice": "20021996",
+      "purchaseDate": "26/02/2023",
+      "dueDate": "26/02/2023",
+      "comments": "",
+      "id": 3
     }
   ]
 }
