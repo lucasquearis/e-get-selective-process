@@ -8,7 +8,7 @@ const store = configureStore({
     user: userSlice,
     dimensions: dimensionsSlice,
   },
-  // middleware: (middleware) => middleware().concat(logger),
+  middleware: (middleware) => middleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -22,10 +22,12 @@ import { ErrorText } from "../../../components/Text/Error";
 import { SuccessText } from "../../../components/Text/Success";
 import { checkRequiredFields } from "../../../utils/functions";
 import { StyledCurrencyInput } from "../../../components/CurrencyInput";
+import { MOBILE_WIDTH } from "../../../utils/constants";
 
 const SimpleFlexGap = styled.div`
   display: flex;
   gap: 8px;
+  width: 100%;
 `;
 
 export interface IRequiredFields {
@@ -37,7 +39,7 @@ export interface IRequiredFields {
 }
 
 function RegisterProducts() {
-  const { user: userRedux } = useAppSelector((state) => state);
+  const { user: userRedux, dimensions } = useAppSelector((state) => state);
   const [fileUploadedValue, setFileUploadedValue] = useState<
     File | undefined
   >();
@@ -53,6 +55,8 @@ function RegisterProducts() {
   const [isFetching, setIsFetching] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+
+  const isMobile = dimensions.width < MOBILE_WIDTH;
 
   const resetFields = () => {
     setDueDate("");
@@ -145,50 +149,46 @@ function RegisterProducts() {
           setFileUploadedValue={setFileUploadedValue}
         />
       </StyledLabel>
-      <SimpleFlexGap>
-        <StyledLabel style={{ width: "50%" }}>
-          <div style={{ display: "flex" }}>
-            Preço de custo<ErrorText>*</ErrorText>:
-          </div>
-          <StyledCurrencyInput
-            value={costPrice}
-            onValueChange={(value) => value && setCostPrice(value)}
-            prefix="R$"
-          />
-        </StyledLabel>
-        <StyledLabel style={{ width: "50%" }}>
-          <div style={{ display: "flex" }}>
-            Preço de venda<ErrorText>*</ErrorText>:
-          </div>
-          <StyledCurrencyInput
-            value={salePrice}
-            onValueChange={(value) => value && setSalePrice(value)}
-            prefix="R$"
-          />
-        </StyledLabel>
-      </SimpleFlexGap>
-      <SimpleFlexGap>
-        <StyledLabel>
-          <div style={{ display: "flex" }}>
-            Data de compra<ErrorText>*</ErrorText>:
-          </div>
-          <StyledInputMask
-            value={purchaseDate}
-            onChange={(e) => setPurchaseDate(e.target.value)}
-            mask="99/99/9999"
-          />
-        </StyledLabel>
-        <StyledLabel>
-          <div style={{ display: "flex" }}>
-            Data de vencimento<ErrorText>*</ErrorText>:
-          </div>
-          <StyledInputMask
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            mask="99/99/9999"
-          />
-        </StyledLabel>
-      </SimpleFlexGap>
+      <StyledLabel>
+        <div style={{ display: "flex" }}>
+          Preço de custo<ErrorText>*</ErrorText>:
+        </div>
+        <StyledCurrencyInput
+          value={costPrice}
+          onValueChange={(value = "") => setCostPrice(value)}
+          prefix="R$"
+        />
+      </StyledLabel>
+      <StyledLabel>
+        <div style={{ display: "flex" }}>
+          Preço de venda<ErrorText>*</ErrorText>:
+        </div>
+        <StyledCurrencyInput
+          value={salePrice}
+          onValueChange={(value = "") => setSalePrice(value)}
+          prefix="R$"
+        />
+      </StyledLabel>
+      <StyledLabel>
+        <div style={{ display: "flex" }}>
+          Data de compra<ErrorText>*</ErrorText>:
+        </div>
+        <StyledInputMask
+          value={purchaseDate}
+          onChange={(e) => setPurchaseDate(e.target.value)}
+          mask="99/99/9999"
+        />
+      </StyledLabel>
+      <StyledLabel>
+        <div style={{ display: "flex" }}>
+          Data de vencimento<ErrorText>*</ErrorText>:
+        </div>
+        <StyledInputMask
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          mask="99/99/9999"
+        />
+      </StyledLabel>
       <StyledLabel>
         Especificações:
         <StyledTextArea rows={4} />

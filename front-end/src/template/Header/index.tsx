@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 import { clearUser, UserState } from "../../redux/reducers/users";
+import { MOBILE_WIDTH } from "../../utils/constants";
 
 export interface IHeader {
   user: UserState;
@@ -47,7 +48,7 @@ function Header() {
         <div>
           <img width={70} height={50} src={logo} />
         </div>
-        {dimensions.width > 768 ? (
+        {dimensions.width > MOBILE_WIDTH ? (
           <DesktopHeader
             isLogedIn={isUserLogedIn}
             user={userRedux}
