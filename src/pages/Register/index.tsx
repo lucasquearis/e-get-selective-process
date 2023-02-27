@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { StyledButton } from "../../components/Button";
+import { NoStyleButton, StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
 import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
@@ -12,6 +12,7 @@ import Toggle from "../../components/Toggle";
 import { createUser } from "../../utils/api";
 import { SuccessText } from "../../components/Text/Success";
 import { useAppSelector } from "../../hooks";
+import { ButtonContainer } from "../Login";
 
 interface ICheckUserData {
   fullName: string;
@@ -123,7 +124,7 @@ function Register() {
           />
           <Paragraph>I want to be an admin!</Paragraph>
         </div>
-        <div style={{ minHeight: 25 }}>
+        <div>
           {registerError && <ErrorText>{registerError}</ErrorText>}
           {successMessage && (
             <SuccessText>
@@ -132,14 +133,18 @@ function Register() {
             </SuccessText>
           )}
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <ButtonContainer>
           <StyledButton disabled={isFetching} type="submit">
             Register
           </StyledButton>
-          <StyledButton type="button" onClick={() => navigate("/")}>
-            Back to Home
-          </StyledButton>
-        </div>
+          <NoStyleButton
+            style={{ marginTop: 25 }}
+            type="button"
+            onClick={() => navigate("/")}
+          >
+            <Paragraph>Back to Home</Paragraph>
+          </NoStyleButton>
+        </ButtonContainer>
       </BoxForm>
     </DefaultContent>
   );

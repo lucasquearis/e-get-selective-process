@@ -5,7 +5,8 @@ import { EditIcon } from "../Icon/Edit";
 import { MinusIcon } from "../Icon/Minus";
 import { StyledHeader, StyledList } from "../ProductsList";
 
-interface IProductItem extends IProduct {
+interface IProductItem {
+  product: IProduct;
   handleEdit: (product: IProduct) => void;
   handleDelete: (product: IProduct) => void;
 }
@@ -37,62 +38,25 @@ export function ProductHeader() {
   );
 }
 
-function ProductItem({
-  id,
-  productName,
-  base64Image,
-  comments,
-  costPrice,
-  dueDate,
-  purchaseDate,
-  salePrice,
-  handleEdit,
-  handleDelete,
-}: IProductItem) {
+function ProductItem({ product, handleEdit, handleDelete }: IProductItem) {
   return (
     <>
       <StyledList style={{ padding: "30px 0" }}>
-        <Paragraph>{id}</Paragraph>
+        <Paragraph>{product.id}</Paragraph>
         <Paragraph>
-          {<img width={40} height={40} src={base64Image}></img>}
+          {<img width={40} height={40} src={product.base64Image}></img>}
         </Paragraph>
-        <Paragraph>{productName}</Paragraph>
-        <Paragraph>{purchaseDate}</Paragraph>
-        <Paragraph>{dueDate}</Paragraph>
-        <Paragraph>{comments}</Paragraph>
-        <Paragraph>{toRealCurrency(Number(costPrice))}</Paragraph>
-        <Paragraph>{toRealCurrency(Number(salePrice))}</Paragraph>
+        <Paragraph>{product.productName}</Paragraph>
+        <Paragraph>{product.purchaseDate}</Paragraph>
+        <Paragraph>{product.dueDate}</Paragraph>
+        <Paragraph>{product.comments}</Paragraph>
+        <Paragraph>{toRealCurrency(Number(product.costPrice))}</Paragraph>
+        <Paragraph>{toRealCurrency(Number(product.salePrice))}</Paragraph>
         <Paragraph>
-          <EditIcon
-            onClick={() =>
-              handleEdit({
-                id,
-                productName,
-                base64Image,
-                comments,
-                costPrice,
-                dueDate,
-                purchaseDate,
-                salePrice,
-              })
-            }
-          />
+          <EditIcon onClick={() => handleEdit(product)} />
         </Paragraph>
         <Paragraph>
-          <MinusIcon
-            onClick={() =>
-              handleDelete({
-                id,
-                productName,
-                base64Image,
-                comments,
-                costPrice,
-                dueDate,
-                purchaseDate,
-                salePrice,
-              })
-            }
-          />
+          <MinusIcon onClick={() => handleDelete(product)} />
         </Paragraph>
       </StyledList>
     </>

@@ -2,7 +2,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { StyledButton } from "../../components/Button";
+import { NoStyleButton, StyledButton } from "../../components/Button";
 import { DefaultContent } from "../../components/DefaultContent";
 import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
@@ -17,9 +17,15 @@ interface IVerifyUserInDB {
   password: string;
 }
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+`;
+
+export const Paragraph = styled.p`
+  span {
+    color: ${({ theme }) => theme.color.brand[1000]};
+  }
 `;
 
 function Login() {
@@ -104,16 +110,21 @@ function Login() {
           Password:
           <StyledInput type="password" ref={passwordRef} />
         </StyledLabel>
-        <div style={{ minHeight: 25 }}>
-          {loginError && <ErrorText>{loginError}</ErrorText>}
-        </div>
+        <div>{loginError && <ErrorText>{loginError}</ErrorText>}</div>
         <ButtonContainer>
           <StyledButton disabled={isFetching} type="submit">
             Login
           </StyledButton>
-          <StyledButton type="button" onClick={() => navigate("/register")}>
-            Register
-          </StyledButton>
+          <NoStyleButton
+            style={{ marginTop: "30px" }}
+            type="button"
+            onClick={() => navigate("/register")}
+          >
+            <Paragraph>
+              Ainda não tem cadastro?{" "}
+              <span style={{ marginLeft: 8 }}>Registre-se aqui!</span>
+            </Paragraph>
+          </NoStyleButton>
         </ButtonContainer>
       </BoxForm>
     </DefaultContent>

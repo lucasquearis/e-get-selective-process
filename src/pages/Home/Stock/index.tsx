@@ -41,12 +41,21 @@ function Stock() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<IProduct | undefined>();
+  const [searchByName, setSearchByName] = useState("");
+  const [searchById, setSearchById] = useState("");
+  const [searchByCost, setSearchByCost] = useState("");
+  const [searchBySale, setSearchBySale] = useState("");
+  const [searchByComment, setSearchByComment] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<
+    IProduct[] | never[]
+  >([]);
 
   const fetchApi = async () => {
     setIsFetching(true);
     const response = await getAllProducts();
     if (response?.data) {
       setProducts(response.data);
+      setFilteredProducts(response.data);
       setIsFetching(false);
     }
   };
@@ -65,6 +74,21 @@ function Stock() {
     fetchApi();
   }, []);
 
+  useEffect(() => {
+    const newArray = products
+      .filter((product) =>
+        product.productName.toLowerCase().includes(searchByName.toLowerCase())
+      )
+      .filter((product) =>
+        product.comments.toLowerCase().includes(searchByComment.toLowerCase())
+      )
+      .filter((product) => String(product.id).includes(searchById))
+      .filter((product) => product.costPrice.includes(searchByCost))
+      .filter((product) => product.salePrice.includes(searchBySale));
+
+    setFilteredProducts(newArray);
+  }, [searchByName, searchById, searchByCost, searchBySale, searchByComment]);
+
   return (
     <>
       <DefaultContent
@@ -74,62 +98,61 @@ function Stock() {
           <Heading>Filter Products by:</Heading>
           <StyledLabel>
             Name:
-            <StyledInput />
+            <StyledInput
+              value={searchByName}
+              onChange={(e) => setSearchByName(e.target.value)}
+            />
           </StyledLabel>
           <StyledLabel>
             Product id:
-            <StyledInput style={{ maxWidth: 70 }} type="number" />
-          </StyledLabel>
-          <StyledLabel>
-            Date:
-            <StyledInputMask style={{ maxWidth: 70 }} mask="99/99/9999" />
+            <StyledInput
+              value={searchById}
+              onChange={(e) => setSearchById(e.target.value)}
+              style={{ maxWidth: 70 }}
+              type="number"
+            />
           </StyledLabel>
           <StyledLabel>
             Cost price:
-            <StyledInput style={{ maxWidth: 70 }} type="number" />
+            <StyledInput
+              value={searchByCost}
+              onChange={(e) => setSearchByCost(e.target.value)}
+              style={{ maxWidth: 70 }}
+              type="number"
+            />
           </StyledLabel>
           <StyledLabel>
             Sale price:
-            <StyledInput style={{ maxWidth: 70 }} type="number" />
+            <StyledInput
+              value={searchBySale}
+              onChange={(e) => setSearchBySale(e.target.value)}
+              style={{ maxWidth: 70 }}
+              type="number"
+            />
           </StyledLabel>
           <StyledLabel>
             Product comment:
-            <StyledInput />
+            <StyledInput
+              value={searchByComment}
+              onChange={(e) => setSearchByComment(e.target.value)}
+            />
           </StyledLabel>
         </HeaderStock>
         {isFetching ? (
           <Loading />
         ) : (
           <ProductsList>
-            {products.length > 0 ? (
+            {filteredProducts.length > 0 ? (
               <>
                 <ProductHeader />
-                {products.map(
-                  ({
-                    productName,
-                    id,
-                    base64Image,
-                    comments,
-                    costPrice,
-                    dueDate,
-                    purchaseDate,
-                    salePrice,
-                  }) => (
-                    <ProductItem
-                      key={id}
-                      productName={productName}
-                      id={id}
-                      base64Image={base64Image}
-                      comments={comments}
-                      costPrice={costPrice}
-                      dueDate={dueDate}
-                      purchaseDate={purchaseDate}
-                      salePrice={salePrice}
-                      handleDelete={handleDelete}
-                      handleEdit={handleEdit}
-                    />
-                  )
-                )}
+                {filteredProducts.map((product) => (
+                  <ProductItem
+                    key={product.id}
+                    product={product}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                  />
+                ))}
               </>
             ) : (
               <StyledList style={{ justifyContent: "center" }}>

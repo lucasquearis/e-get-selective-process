@@ -49,39 +49,43 @@ function Header() {
           <img width={70} height={50} src={logo} />
         </div>
         {userRedux.fullName && (
-          <HeaderOptionsContainer>
-            <StyledButton onClick={() => navigate("/home")}>
-              <HomeOutlined style={{ marginRight: 8 }} />
-              Home
-            </StyledButton>
-            {userRedux.isAnAdministrator && (
-              <>
-                <StyledButton onClick={() => navigate("/home/dashboard")}>
-                  <DashboardOutlined style={{ marginRight: 8 }} />
-                  Dashboard
-                </StyledButton>
-                <StyledButton onClick={() => navigate("/home/register")}>
-                  <FormOutlined style={{ marginRight: 8 }} />
-                  Register Products
-                </StyledButton>
-              </>
-            )}
-            <StyledButton onClick={() => navigate("/home/stock")}>
-              <StockOutlined style={{ marginRight: 8 }} />
-              Stock
-            </StyledButton>
-          </HeaderOptionsContainer>
+          <>
+            <HeaderOptionsContainer>
+              <StyledButton onClick={() => navigate("/home")}>
+                <HomeOutlined style={{ marginRight: 8 }} />
+                Home
+              </StyledButton>
+              {userRedux.isAnAdministrator && (
+                <>
+                  <StyledButton onClick={() => navigate("/home/dashboard")}>
+                    <DashboardOutlined style={{ marginRight: 8 }} />
+                    Dashboard
+                  </StyledButton>
+                  <StyledButton onClick={() => navigate("/home/register")}>
+                    <FormOutlined style={{ marginRight: 8 }} />
+                    Register Products
+                  </StyledButton>
+                </>
+              )}
+              <StyledButton onClick={() => navigate("/home/stock")}>
+                <StockOutlined style={{ marginRight: 8 }} />
+                Stock
+              </StyledButton>
+            </HeaderOptionsContainer>
+            <div
+              style={{ display: "flex", width: "100%", justifyContent: "end" }}
+            >
+              <StyledButton
+                onClick={() => {
+                  dispatch(clearUser());
+                  navigate("/");
+                }}
+              >
+                <LogoutOutlined style={{ marginRight: 8 }} /> Log-out
+              </StyledButton>
+            </div>
+          </>
         )}
-        <div style={{ display: "flex", width: "100%", justifyContent: "end" }}>
-          <StyledButton
-            onClick={() => {
-              dispatch(clearUser());
-              navigate("/");
-            }}
-          >
-            <LogoutOutlined style={{ marginRight: 8 }} /> Log-out
-          </StyledButton>
-        </div>
       </HeaderBox>
     </HeaderContent>
   );

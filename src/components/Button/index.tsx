@@ -22,3 +22,9 @@ export const StyledButton = styled.button`
     background-color: ${({ theme }) => theme.color.neutral[400]};
   }
 `;
+
+export const NoStyleButton = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
