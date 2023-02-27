@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { NoStyleButton, StyledButton } from "../../components/Button";
-import { DefaultContent } from "../../components/DefaultContent";
 import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
@@ -102,58 +101,53 @@ function Register() {
   }, [successMessage, sucessTimer]);
 
   return (
-    <DefaultContent>
-      <BoxForm onSubmit={handleSubmit}>
-        <Heading>Registre-se!</Heading>
-        <StyledLabel>
-          Nome completo:
-          <StyledInput />
-        </StyledLabel>
-        <StyledLabel>
-          Nome de usuário:
-          <StyledInput />
-        </StyledLabel>
-        <StyledLabel>
-          Senha:
-          <StyledInput type="password" />
-        </StyledLabel>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            marginTop: 8,
-          }}
+    <BoxForm onSubmit={handleSubmit}>
+      <Heading>Registre-se!</Heading>
+      <StyledLabel>
+        Nome completo:
+        <StyledInput />
+      </StyledLabel>
+      <StyledLabel>
+        Nome de usuário:
+        <StyledInput />
+      </StyledLabel>
+      <StyledLabel>
+        Senha:
+        <StyledInput type="password" />
+      </StyledLabel>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          marginTop: 8,
+        }}
+      >
+        <Toggle checked={isAnAdministrator} setChecked={setIsAnAdministrator} />
+        <Paragraph>Eu quero ser um administrador!</Paragraph>
+      </div>
+      <div>
+        {registerError && <ErrorText>{registerError}</ErrorText>}
+        {successMessage && (
+          <SuccessText>
+            {successMessage}
+            {` redirecionando em ${sucessTimer} segundos`}
+          </SuccessText>
+        )}
+      </div>
+      <ButtonContainer>
+        <StyledButton disabled={isFetching} type="submit">
+          Registrar
+        </StyledButton>
+        <NoStyleButton
+          style={{ marginTop: 25 }}
+          type="button"
+          onClick={() => navigate("/")}
         >
-          <Toggle
-            checked={isAnAdministrator}
-            setChecked={setIsAnAdministrator}
-          />
-          <Paragraph>Eu quero ser um administrador!</Paragraph>
-        </div>
-        <div>
-          {registerError && <ErrorText>{registerError}</ErrorText>}
-          {successMessage && (
-            <SuccessText>
-              {successMessage}
-              {` redirecionando em ${sucessTimer} segundos`}
-            </SuccessText>
-          )}
-        </div>
-        <ButtonContainer>
-          <StyledButton disabled={isFetching} type="submit">
-            Registrar
-          </StyledButton>
-          <NoStyleButton
-            style={{ marginTop: 25 }}
-            type="button"
-            onClick={() => navigate("/")}
-          >
-            <Paragraph>Voltar ao início</Paragraph>
-          </NoStyleButton>
-        </ButtonContainer>
-      </BoxForm>
-    </DefaultContent>
+          <Paragraph>Voltar ao início</Paragraph>
+        </NoStyleButton>
+      </ButtonContainer>
+    </BoxForm>
   );
 }
 

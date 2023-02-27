@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { NoStyleButton, StyledButton } from "../../components/Button";
-import { DefaultContent } from "../../components/DefaultContent";
 import { BoxForm } from "../../components/Form";
 import { StyledInput } from "../../components/Input";
 import { StyledLabel } from "../../components/Label";
@@ -99,35 +98,33 @@ function Login() {
   }, [loginError]);
 
   return (
-    <DefaultContent>
-      <BoxForm onSubmit={handleSubmit}>
-        <Heading>Login</Heading>
-        <StyledLabel>
-          Nome de usuário:
-          <StyledInput ref={userNameRef} />
-        </StyledLabel>
-        <StyledLabel>
-          Senha:
-          <StyledInput type="password" ref={passwordRef} />
-        </StyledLabel>
-        <div>{loginError && <ErrorText>{loginError}</ErrorText>}</div>
-        <ButtonContainer>
-          <StyledButton disabled={isFetching} type="submit">
-            Entrar
-          </StyledButton>
-          <NoStyleButton
-            style={{ marginTop: "30px" }}
-            type="button"
-            onClick={() => navigate("/register")}
-          >
-            <Paragraph>
-              Ainda não tem cadastro?{" "}
-              <span style={{ marginLeft: 8 }}>Registre-se aqui!</span>
-            </Paragraph>
-          </NoStyleButton>
-        </ButtonContainer>
-      </BoxForm>
-    </DefaultContent>
+    <BoxForm onSubmit={handleSubmit}>
+      <Heading>Login</Heading>
+      <StyledLabel>
+        Nome de usuário:
+        <StyledInput ref={userNameRef} />
+      </StyledLabel>
+      <StyledLabel>
+        Senha:
+        <StyledInput type="password" ref={passwordRef} />
+      </StyledLabel>
+      <div>{loginError && <ErrorText>{loginError}</ErrorText>}</div>
+      <ButtonContainer>
+        <StyledButton disabled={isFetching} type="submit">
+          Entrar
+        </StyledButton>
+        <NoStyleButton
+          style={{ marginTop: "30px" }}
+          type="button"
+          onClick={() => navigate("/register")}
+        >
+          <Paragraph>
+            Ainda não tem cadastro?{" "}
+            <span style={{ marginLeft: 8 }}>Registre-se aqui!</span>
+          </Paragraph>
+        </NoStyleButton>
+      </ButtonContainer>
+    </BoxForm>
   );
 }
 

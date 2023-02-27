@@ -23,7 +23,6 @@ const HeaderStock = styled.div`
   border-radius: 4px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   margin: 24px auto;
-  width: 90%;
 `;
 
 export const ModalContent = styled.div`
@@ -91,9 +90,7 @@ function Stock() {
 
   return (
     <>
-      <DefaultContent
-        style={{ justifyContent: "center", flexDirection: "column" }}
-      >
+      <div style={{ flexDirection: "column" }}>
         <HeaderStock>
           <Heading>Filtrar produtos por:</Heading>
           <StyledLabel style={{ maxWidth: "12%" }}>
@@ -158,7 +155,7 @@ function Stock() {
             )}
           </ProductsList>
         )}
-      </DefaultContent>
+      </div>
       {openDeleteModal && (
         <Modal
           title={`Are you sure you want to remove "${currentProduct?.productName}" ?`}

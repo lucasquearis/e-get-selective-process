@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./global.css";
 import ErrorHandler from "./pages/Error";
@@ -8,18 +7,7 @@ import RegisterProducts from "./pages/Home/RegisterProducts";
 import Stock from "./pages/Home/Stock";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Footer from "./template/Footer";
-import Header from "./template/Header";
-
-const DefaultWrapper = ({ children }: { children: ReactNode }) => {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
-};
+import DefaultWrapper from "./template/Wrapper";
 
 const router = createBrowserRouter([
   {

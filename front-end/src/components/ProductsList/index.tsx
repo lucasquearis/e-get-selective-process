@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
 export const ProductsList = styled.ul`
-  width: 98%;
-  height: 100%;
   background-color: ${({ theme }) => theme.color.white};
   margin: 0 auto 24px auto;
   border-radius: 4px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  overflow-y: auto;
+  overflow: auto;
   ::-webkit-scrollbar {
     width: 10px;
     height: 8px;

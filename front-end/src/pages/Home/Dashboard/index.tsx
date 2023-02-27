@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useEffect } from "react";
-import { DefaultContent } from "../../../components/DefaultContent";
 import { useAppSelector } from "../../../hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +12,7 @@ function DashBoard() {
       navigate("/home");
     }
   }, []);
-  return <DefaultContent>DashBoard</DefaultContent>;
+  return <div>DashBoard</div>;
 }
 
 export default DashBoard;

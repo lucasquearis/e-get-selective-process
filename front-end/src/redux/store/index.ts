@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "../reducers/users";
+import dimensionsSlice from "../reducers/dimensionsResize";
 import logger from "redux-logger";
 
 const store = configureStore({
   reducer: {
     user: userSlice,
+    width: dimensionsSlice,
   },
-  middleware: (middleware) => middleware().concat(logger),
+  // middleware: (middleware) => middleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

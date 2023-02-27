@@ -8,8 +8,8 @@ export const BoxForm = styled.form`
   padding: 24px;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  max-height: 65vh;
-  overflow-y: auto;
+  height: 100%;
+  margin: 40px 0;
   ::-webkit-scrollbar {
     width: 10px;
     height: 8px;

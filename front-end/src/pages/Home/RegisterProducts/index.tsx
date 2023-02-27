@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { DefaultContent } from "../../../components/DefaultContent";
 import { useAppSelector } from "../../../hooks";
 import { BoxForm } from "../../../components/Form";
 import { StyledLabel } from "../../../components/Label";
@@ -128,80 +127,78 @@ function RegisterProducts() {
   }, [successMessage]);
 
   return (
-    <DefaultContent>
-      <BoxForm onSubmit={handleSubmit} ref={formRef}>
-        <Heading>Registrar novo produto</Heading>
-        <StyledLabel>
+    <BoxForm onSubmit={handleSubmit} ref={formRef}>
+      <Heading>Registrar novo produto</Heading>
+      <StyledLabel>
+        <div style={{ display: "flex" }}>
+          Nome do produto<ErrorText>*</ErrorText>:
+        </div>
+        <StyledInput />
+      </StyledLabel>
+      <StyledLabel>
+        Imagem do produto:
+        <UploadFile
+          handleFile={(e: SetStateAction<string | undefined>) =>
+            setBase64Image(e)
+          }
+          fileUploadedValue={fileUploadedValue}
+          setFileUploadedValue={setFileUploadedValue}
+        />
+      </StyledLabel>
+      <SimpleFlexGap>
+        <StyledLabel style={{ width: "50%" }}>
           <div style={{ display: "flex" }}>
-            Nome do produto<ErrorText>*</ErrorText>:
+            Preço de custo<ErrorText>*</ErrorText>:
           </div>
-          <StyledInput />
-        </StyledLabel>
-        <StyledLabel>
-          Imagem do produto:
-          <UploadFile
-            handleFile={(e: SetStateAction<string | undefined>) =>
-              setBase64Image(e)
-            }
-            fileUploadedValue={fileUploadedValue}
-            setFileUploadedValue={setFileUploadedValue}
+          <StyledCurrencyInput
+            value={costPrice}
+            onValueChange={(value) => value && setCostPrice(value)}
+            prefix="R$"
           />
         </StyledLabel>
-        <SimpleFlexGap>
-          <StyledLabel style={{ width: "50%" }}>
-            <div style={{ display: "flex" }}>
-              Preço de custo<ErrorText>*</ErrorText>:
-            </div>
-            <StyledCurrencyInput
-              value={costPrice}
-              onValueChange={(value) => value && setCostPrice(value)}
-              prefix="R$"
-            />
-          </StyledLabel>
-          <StyledLabel style={{ width: "50%" }}>
-            <div style={{ display: "flex" }}>
-              Preço de venda<ErrorText>*</ErrorText>:
-            </div>
-            <StyledCurrencyInput
-              value={salePrice}
-              onValueChange={(value) => value && setSalePrice(value)}
-              prefix="R$"
-            />
-          </StyledLabel>
-        </SimpleFlexGap>
-        <SimpleFlexGap>
-          <StyledLabel>
-            <div style={{ display: "flex" }}>
-              Data de compra<ErrorText>*</ErrorText>:
-            </div>
-            <StyledInputMask
-              value={purchaseDate}
-              onChange={(e) => setPurchaseDate(e.target.value)}
-              mask="99/99/9999"
-            />
-          </StyledLabel>
-          <StyledLabel>
-            <div style={{ display: "flex" }}>
-              Data de vencimento<ErrorText>*</ErrorText>:
-            </div>
-            <StyledInputMask
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              mask="99/99/9999"
-            />
-          </StyledLabel>
-        </SimpleFlexGap>
-        <StyledLabel>
-          Especificações:
-          <StyledTextArea rows={4} />
+        <StyledLabel style={{ width: "50%" }}>
+          <div style={{ display: "flex" }}>
+            Preço de venda<ErrorText>*</ErrorText>:
+          </div>
+          <StyledCurrencyInput
+            value={salePrice}
+            onValueChange={(value) => value && setSalePrice(value)}
+            prefix="R$"
+          />
         </StyledLabel>
-        {registerError && <ErrorText>{registerError}</ErrorText>}
-        {successMessage && <SuccessText>{successMessage}</SuccessText>}
-        <StyledButton disabled={isFetching} type="submit">
-          Registrar produto
-        </StyledButton>
-      </BoxForm>
-    </DefaultContent>
+      </SimpleFlexGap>
+      <SimpleFlexGap>
+        <StyledLabel>
+          <div style={{ display: "flex" }}>
+            Data de compra<ErrorText>*</ErrorText>:
+          </div>
+          <StyledInputMask
+            value={purchaseDate}
+            onChange={(e) => setPurchaseDate(e.target.value)}
+            mask="99/99/9999"
+          />
+        </StyledLabel>
+        <StyledLabel>
+          <div style={{ display: "flex" }}>
+            Data de vencimento<ErrorText>*</ErrorText>:
+          </div>
+          <StyledInputMask
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            mask="99/99/9999"
+          />
+        </StyledLabel>
+      </SimpleFlexGap>
+      <StyledLabel>
+        Especificações:
+        <StyledTextArea rows={4} />
+      </StyledLabel>
+      {registerError && <ErrorText>{registerError}</ErrorText>}
+      {successMessage && <SuccessText>{successMessage}</SuccessText>}
+      <StyledButton disabled={isFetching} type="submit">
+        Registrar produto
+      </StyledButton>
+    </BoxForm>
   );
 }
 

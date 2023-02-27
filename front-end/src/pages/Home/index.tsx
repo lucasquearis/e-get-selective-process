@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { DefaultContent } from "../../components/DefaultContent";
 import { useAppSelector } from "../../hooks";
 
 function Home() {
@@ -12,7 +11,7 @@ function Home() {
       navigate("/");
     }
   }, [userRedux]);
-  return <DefaultContent>Welcome, {userRedux.fullName}!</DefaultContent>;
+  return <div>Welcome, {userRedux.fullName}!</div>;
 }
 
 export default Home;

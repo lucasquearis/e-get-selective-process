@@ -11,17 +11,17 @@ import {
 } from "@ant-design/icons";
 import { clearUser } from "../../redux/reducers/users";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const HeaderContent = styled.header`
-  height: 10vh;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
   background-color: ${({ theme }) => theme.color.brand[500]};
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  height: 80px;
 `;
 
 const HeaderBox = styled.div`
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,6 +41,12 @@ const HeaderOptionsContainer = styled.div`
 function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const test = useAppSelector((state) => state);
+
+  useEffect(() => {
+    console.log(test.width);
+  }, [test.width]);
+
   const { user: userRedux } = useAppSelector((state) => state);
   return (
     <HeaderContent>
