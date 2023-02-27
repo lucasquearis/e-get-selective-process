@@ -15,7 +15,6 @@ const Paragraph = styled.p`
   width: 10%;
   margin: 0px 8px;
   text-align: center;
-  width: 10%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -25,15 +24,15 @@ export function ProductHeader() {
   return (
     <StyledHeader>
       <Paragraph>Id</Paragraph>
-      <Paragraph>Image</Paragraph>
-      <Paragraph>Product Name</Paragraph>
-      <Paragraph>Purchase Date</Paragraph>
-      <Paragraph>Due date</Paragraph>
-      <Paragraph>Comments</Paragraph>
-      <Paragraph>Cost price</Paragraph>
-      <Paragraph>Sale Price</Paragraph>
-      <Paragraph>Edit</Paragraph>
-      <Paragraph>Remove</Paragraph>
+      <Paragraph>Imagem</Paragraph>
+      <Paragraph>Nome</Paragraph>
+      <Paragraph>Data compra</Paragraph>
+      <Paragraph>Data vencimento</Paragraph>
+      <Paragraph>Especificação</Paragraph>
+      <Paragraph>Preço de custo</Paragraph>
+      <Paragraph>Preço de venda</Paragraph>
+      <Paragraph>Editar</Paragraph>
+      <Paragraph>Remover</Paragraph>
     </StyledHeader>
   );
 }

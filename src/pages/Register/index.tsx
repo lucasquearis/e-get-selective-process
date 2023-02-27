@@ -36,19 +36,19 @@ function Register() {
 
   const checkUserData = ({ fullName, userName, password }: ICheckUserData) => {
     if (!fullName || !userName || !password) {
-      return "All fields are  required!";
+      return "Todos os campos são obrigatórios";
     }
 
     if (fullName.length < 5) {
-      return "Full name must contain at least 5 characters!";
+      return "O nome completo deve conter no mínimo 5 caracteres!";
     }
 
     if (userName.length < 5) {
-      return "Username must contain at least 5 characters!";
+      return "O nome de usuário deve conter pelo menos 5 caracteres!";
     }
 
     if (password.length < 5) {
-      return "Password must contain at least 5 characters!";
+      return "A senha deve conter no mínimo 5 caracteres!";
     }
   };
 
@@ -71,7 +71,7 @@ function Register() {
     });
 
     if (response?.status === 201) {
-      setSuccessMessage("Account created successfully");
+      setSuccessMessage("Conta criada com sucesso!");
     }
   };
 
@@ -104,45 +104,52 @@ function Register() {
   return (
     <DefaultContent>
       <BoxForm onSubmit={handleSubmit}>
-        <Heading>Register</Heading>
+        <Heading>Registre-se!</Heading>
         <StyledLabel>
-          Full name:
+          Nome completo:
           <StyledInput />
         </StyledLabel>
         <StyledLabel>
-          Username:
+          Nome de usuário:
           <StyledInput />
         </StyledLabel>
         <StyledLabel>
-          Password:
+          Senha:
           <StyledInput type="password" />
         </StyledLabel>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginTop: 8,
+          }}
+        >
           <Toggle
             checked={isAnAdministrator}
             setChecked={setIsAnAdministrator}
           />
-          <Paragraph>I want to be an admin!</Paragraph>
+          <Paragraph>Eu quero ser um administrador!</Paragraph>
         </div>
         <div>
           {registerError && <ErrorText>{registerError}</ErrorText>}
           {successMessage && (
             <SuccessText>
               {successMessage}
-              {` redirecting in ${sucessTimer} seconds`}
+              {` redirecionando em ${sucessTimer} segundos`}
             </SuccessText>
           )}
         </div>
         <ButtonContainer>
           <StyledButton disabled={isFetching} type="submit">
-            Register
+            Registrar
           </StyledButton>
           <NoStyleButton
             style={{ marginTop: 25 }}
             type="button"
             onClick={() => navigate("/")}
           >
-            <Paragraph>Back to Home</Paragraph>
+            <Paragraph>Voltar ao início</Paragraph>
           </NoStyleButton>
         </ButtonContainer>
       </BoxForm>

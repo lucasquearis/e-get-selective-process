@@ -95,43 +95,40 @@ function Stock() {
         style={{ justifyContent: "center", flexDirection: "column" }}
       >
         <HeaderStock>
-          <Heading>Filter Products by:</Heading>
-          <StyledLabel>
-            Name:
+          <Heading>Filtrar produtos por:</Heading>
+          <StyledLabel style={{ maxWidth: "12%" }}>
+            Nome:
             <StyledInput
               value={searchByName}
               onChange={(e) => setSearchByName(e.target.value)}
             />
           </StyledLabel>
-          <StyledLabel>
-            Product id:
+          <StyledLabel style={{ maxWidth: "12%" }}>
+            id do produto:
             <StyledInput
               value={searchById}
               onChange={(e) => setSearchById(e.target.value)}
-              style={{ maxWidth: 70 }}
               type="number"
             />
           </StyledLabel>
-          <StyledLabel>
-            Cost price:
+          <StyledLabel style={{ maxWidth: "12%" }}>
+            Preço de custo:
             <StyledInput
               value={searchByCost}
               onChange={(e) => setSearchByCost(e.target.value)}
-              style={{ maxWidth: 70 }}
               type="number"
             />
           </StyledLabel>
-          <StyledLabel>
-            Sale price:
+          <StyledLabel style={{ maxWidth: "12%" }}>
+            Preço de venda:
             <StyledInput
               value={searchBySale}
               onChange={(e) => setSearchBySale(e.target.value)}
-              style={{ maxWidth: 70 }}
               type="number"
             />
           </StyledLabel>
-          <StyledLabel>
-            Product comment:
+          <StyledLabel style={{ maxWidth: "12%" }}>
+            Especificação:
             <StyledInput
               value={searchByComment}
               onChange={(e) => setSearchByComment(e.target.value)}
@@ -156,7 +153,7 @@ function Stock() {
               </>
             ) : (
               <StyledList style={{ justifyContent: "center" }}>
-                No products registered yet!
+                Nenhum produto cadastrado!
               </StyledList>
             )}
           </ProductsList>

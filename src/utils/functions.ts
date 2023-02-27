@@ -25,26 +25,26 @@ export const checkRequiredFields = ({
   purchaseDate,
   dueDate,
 }: IRequiredFields) => {
-  if (!productName) return "Product name is required!";
-  if (!costPrice) return "Cost price is required!";
+  if (!productName) return "O nome do produto é obrigatório!";
+  if (!costPrice) return "Preço de custo é obrigatório!";
   if (!salePrice) return "Sale price is required!";
-  if (!purchaseDate) return "Purchase Date is required!";
-  if (!dueDate) return "Due date is required!";
+  if (!purchaseDate) return "O preço de venda é obrigatório!";
+  if (!dueDate) return "A data de vencimento é obrigatória!";
   if (
     !moment(purchaseDate, "DD/MM/YYYY").isValid() ||
     purchaseDate.replace(/[^\d]/g, "").length !== 8
   )
-    return "Purchase date invalid format!";
+    return "Formato inválido da data de compra!";
   if (
     !moment(dueDate, "DD/MM/YYYY").isValid() ||
     dueDate.replace(/[^\d]/g, "").length !== 8
   )
-    return "Due date invalid format!";
+    return "Data de vencimento formato inválido!";
 
   if (
     moment(dueDate, "DD/MM/YYYY").isBefore(moment(purchaseDate, "DD/MM/YYYY"))
   )
-    return "Purchase date must be less than due date!";
+    return "A data da compra deve ser anterior à data de vencimento!";
 };
 
 export const toRealCurrency = (value: number) => {

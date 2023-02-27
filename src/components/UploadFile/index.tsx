@@ -5,11 +5,18 @@ import {
   MouseEvent,
   SetStateAction,
   useRef,
-  useState,
 } from "react";
+import styled from "styled-components";
 import { getBase64 } from "../../utils/functions";
 import { StyledButton } from "../Button";
 import { SuccessText } from "../Text/Success";
+
+const UploadButton = styled(StyledButton)`
+  background-color: ${({ theme }) => theme.color.success};
+  &:hover {
+    background-color: ${({ theme }) => theme.color.grayish.success};
+  }
+`;
 
 function UploadFile({
   handleFile,
@@ -55,7 +62,7 @@ function UploadFile({
       </SuccessText>
     ) : (
       <>
-        <StyledButton onClick={handleClick}>Upload a image</StyledButton>
+        <UploadButton onClick={handleClick}>Upload a image</UploadButton>
         <input
           type="file"
           accept="image/*"

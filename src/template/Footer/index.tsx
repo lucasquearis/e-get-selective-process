@@ -13,7 +13,7 @@ const FooterContent = styled.header`
 `;
 
 function Footer() {
-  return <FooterContent>Developed with 🧡 by Lucas A. Santos</FooterContent>;
+  return <FooterContent>Desenvolvido por Lucas A. Santos</FooterContent>;
 }
 
 export default Footer;

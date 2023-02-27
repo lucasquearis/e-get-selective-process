@@ -7,6 +7,10 @@ declare module "styled-components" {
       white: string;
       error: string;
       success: string;
+      grayish: {
+        error: string;
+        success: string;
+      };
       neutral: {
         1000: string;
         600: string;

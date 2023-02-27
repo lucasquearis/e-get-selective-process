@@ -53,23 +53,23 @@ function Header() {
             <HeaderOptionsContainer>
               <StyledButton onClick={() => navigate("/home")}>
                 <HomeOutlined style={{ marginRight: 8 }} />
-                Home
+                Início
               </StyledButton>
               {userRedux.isAnAdministrator && (
                 <>
                   <StyledButton onClick={() => navigate("/home/dashboard")}>
                     <DashboardOutlined style={{ marginRight: 8 }} />
-                    Dashboard
+                    Painel
                   </StyledButton>
                   <StyledButton onClick={() => navigate("/home/register")}>
                     <FormOutlined style={{ marginRight: 8 }} />
-                    Register Products
+                    Registrar produtos
                   </StyledButton>
                 </>
               )}
               <StyledButton onClick={() => navigate("/home/stock")}>
                 <StockOutlined style={{ marginRight: 8 }} />
-                Stock
+                Estoque
               </StyledButton>
             </HeaderOptionsContainer>
             <div

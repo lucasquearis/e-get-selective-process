@@ -95,7 +95,9 @@ function RegisterProducts() {
       base64Image,
     });
     if (response?.status === 201) {
-      setSuccessMessage(`Item "${productName}", successfully added`);
+      setSuccessMessage(
+        `O produto "${productName}", foi adicionado com sucesso!`
+      );
       setIsFetching(false);
       resetFields();
     }
@@ -111,7 +113,7 @@ function RegisterProducts() {
     if (!registerError) return;
     const timer = setTimeout(() => {
       setRegisterError("");
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, [registerError]);
 
@@ -119,40 +121,48 @@ function RegisterProducts() {
     if (!successMessage) return;
     const timeoutId = setTimeout(() => {
       setSuccessMessage("");
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timeoutId);
   }, [successMessage]);
 
   return (
     <DefaultContent>
       <BoxForm onSubmit={handleSubmit} ref={formRef}>
-        <Heading>Register new product</Heading>
+        <Heading>Registrar novo produto</Heading>
         <StyledLabel>
           <div style={{ display: "flex" }}>
-            Product name<ErrorText>*</ErrorText>:
+            Nome do produto<ErrorText>*</ErrorText>:
           </div>
           <StyledInput />
+        </StyledLabel>
+        <StyledLabel>
+          Imagem do produto:
+          <UploadFile
+            handleFile={(e: SetStateAction<string | undefined>) =>
+              setBase64Image(e)
+            }
+            fileUploadedValue={fileUploadedValue}
+            setFileUploadedValue={setFileUploadedValue}
+          />
         </StyledLabel>
         <SimpleFlexGap>
           <StyledLabel style={{ width: "50%" }}>
             <div style={{ display: "flex" }}>
-              Cost price<ErrorText>*</ErrorText>:
+              Preço de custo<ErrorText>*</ErrorText>:
             </div>
             <StyledCurrencyInput
               value={costPrice}
-              // @ts-ignore
-              onValueChange={(value) => setCostPrice(value)}
+              onValueChange={(value) => value && setCostPrice(value)}
               prefix="R$"
             />
           </StyledLabel>
           <StyledLabel style={{ width: "50%" }}>
             <div style={{ display: "flex" }}>
-              Sale price<ErrorText>*</ErrorText>:
+              Preço de venda<ErrorText>*</ErrorText>:
             </div>
             <StyledCurrencyInput
               value={salePrice}
-              // @ts-ignore
-              onValueChange={(value) => setSalePrice(value)}
+              onValueChange={(value) => value && setSalePrice(value)}
               prefix="R$"
             />
           </StyledLabel>
@@ -160,7 +170,7 @@ function RegisterProducts() {
         <SimpleFlexGap>
           <StyledLabel>
             <div style={{ display: "flex" }}>
-              Purchase date<ErrorText>*</ErrorText>:
+              Data de compra<ErrorText>*</ErrorText>:
             </div>
             <StyledInputMask
               value={purchaseDate}
@@ -170,7 +180,7 @@ function RegisterProducts() {
           </StyledLabel>
           <StyledLabel>
             <div style={{ display: "flex" }}>
-              Due date<ErrorText>*</ErrorText>:
+              Data de vencimento<ErrorText>*</ErrorText>:
             </div>
             <StyledInputMask
               value={dueDate}
@@ -180,23 +190,13 @@ function RegisterProducts() {
           </StyledLabel>
         </SimpleFlexGap>
         <StyledLabel>
-          Comments:
+          Especificações:
           <StyledTextArea rows={4} />
-        </StyledLabel>
-        <StyledLabel>
-          Upload Image:
-          <UploadFile
-            handleFile={(e: SetStateAction<string | undefined>) =>
-              setBase64Image(e)
-            }
-            fileUploadedValue={fileUploadedValue}
-            setFileUploadedValue={setFileUploadedValue}
-          />
         </StyledLabel>
         {registerError && <ErrorText>{registerError}</ErrorText>}
         {successMessage && <SuccessText>{successMessage}</SuccessText>}
         <StyledButton disabled={isFetching} type="submit">
-          Register
+          Registrar produto
         </StyledButton>
       </BoxForm>
     </DefaultContent>

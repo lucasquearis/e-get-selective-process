@@ -12,8 +12,12 @@ export const defaultTheme: DefaultTheme = {
       200: "#FFCA95",
       100: "#FFD9AA",
     },
-    error: "#F73131",
-    success: "#49AF41",
+    grayish: {
+      error: "#ff7a7a",
+      success: "#40bea1",
+    },
+    error: "#FF4D4D",
+    success: "#00A881",
     neutral: {
       1000: "#242525",
       600: "#949595",

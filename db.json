@@ -30,11 +30,18 @@
       "id": 5
     },
     {
-      "fullName": "Andressa lima carneiro da costa",
-      "userName": "andressaquearis",
-      "password": "712563",
+      "fullName": "uauário de teste",
+      "userName": "testeeee",
+      "password": "12345",
       "isAnAdministrator": true,
-      "id": 6
+      "id": 7
+    },
+    {
+      "fullName": "asdfasd",
+      "userName": "lucasquearisasdf",
+      "password": "kyden3t2",
+      "isAnAdministrator": true,
+      "id": 8
     }
   ],
   "products": [

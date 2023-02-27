@@ -50,7 +50,7 @@ function Login() {
       setUserLocalStorageAndRedux(user);
       navigate("/home");
     } else {
-      setLoginError("Incorrect password");
+      setLoginError("Senha incorreta.");
       return setIsFetching(false);
     }
   };
@@ -60,7 +60,7 @@ function Login() {
     const response = await getUserByUserName({ userName });
 
     if (!response?.data.length) {
-      setLoginError("Username not registered");
+      setLoginError("Usuário não cadastrado.");
       return setIsFetching(false);
     }
 
@@ -78,7 +78,7 @@ function Login() {
     // @ts-ignore
     const [{ value: userName }, { value: password }] = event.target;
     if (!userName || !password) {
-      return setLoginError("Username and Password are required!");
+      return setLoginError("Nome de usuário e senha são necessários!");
     }
     verifyUserInDB({ userName, password });
   };
@@ -103,17 +103,17 @@ function Login() {
       <BoxForm onSubmit={handleSubmit}>
         <Heading>Login</Heading>
         <StyledLabel>
-          Username:
+          Nome de usuário:
           <StyledInput ref={userNameRef} />
         </StyledLabel>
         <StyledLabel>
-          Password:
+          Senha:
           <StyledInput type="password" ref={passwordRef} />
         </StyledLabel>
         <div>{loginError && <ErrorText>{loginError}</ErrorText>}</div>
         <ButtonContainer>
           <StyledButton disabled={isFetching} type="submit">
-            Login
+            Entrar
           </StyledButton>
           <NoStyleButton
             style={{ marginTop: "30px" }}

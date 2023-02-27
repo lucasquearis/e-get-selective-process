@@ -8,5 +8,17 @@ export const BoxForm = styled.form`
   padding: 24px;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  min-width: 300px;
+  max-height: 65vh;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.color.brand[100]};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.color.brand[1000]};
+    border-radius: 10px;
+  }
 `;
