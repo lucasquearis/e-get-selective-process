@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface DimensionsState {
-  width: number | null;
-  height: number | null;
+  width: number;
+  height: number;
 }
 
 const initialState: DimensionsState = {
-  width: typeof window === "object" ? window.innerWidth : null,
-  height: typeof window === "object" ? window.innerHeight : null,
+  width: typeof window === "object" ? window.innerWidth : 0,
+  height: typeof window === "object" ? window.innerHeight : 0,
 };
 
 export const dimensionsSlice = createSlice({

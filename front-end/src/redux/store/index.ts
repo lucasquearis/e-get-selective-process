@@ -6,7 +6,7 @@ import logger from "redux-logger";
 const store = configureStore({
   reducer: {
     user: userSlice,
-    width: dimensionsSlice,
+    dimensions: dimensionsSlice,
   },
   // middleware: (middleware) => middleware().concat(logger),
 });

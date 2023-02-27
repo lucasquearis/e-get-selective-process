@@ -1,17 +1,17 @@
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/Logo/logo.webp";
-import { StyledButton } from "../../components/Button";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import {
-  DashboardOutlined,
-  FormOutlined,
-  HomeOutlined,
-  LogoutOutlined,
-  StockOutlined,
-} from "@ant-design/icons";
-import { clearUser } from "../../redux/reducers/users";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import DesktopHeader from "./DesktopHeader";
+import MobileHeader from "./MobileHeader";
+import { clearUser, UserState } from "../../redux/reducers/users";
+
+export interface IHeader {
+  user: UserState;
+  navigate: NavigateFunction;
+  clearUser: () => void;
+  isLogedIn: boolean;
+}
 
 const HeaderContent = styled.header`
   background-color: ${({ theme }) => theme.color.brand[500]};
@@ -29,68 +29,38 @@ const HeaderBox = styled.div`
   height: 100%;
 `;
 
-const HeaderOptionsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  justify-content: start;
-  margin-left: 24px;
-`;
-
 function Header() {
+  const { dimensions } = useAppSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const test = useAppSelector((state) => state);
 
-  useEffect(() => {
-    console.log(test.width);
-  }, [test.width]);
+  const handleClearUser = () => {
+    dispatch(clearUser());
+    navigate("/");
+  };
 
   const { user: userRedux } = useAppSelector((state) => state);
+  const isUserLogedIn = !!userRedux.fullName;
   return (
     <HeaderContent>
       <HeaderBox>
         <div>
           <img width={70} height={50} src={logo} />
         </div>
-        {userRedux.fullName && (
-          <>
-            <HeaderOptionsContainer>
-              <StyledButton onClick={() => navigate("/home")}>
-                <HomeOutlined style={{ marginRight: 8 }} />
-                Início
-              </StyledButton>
-              {userRedux.isAnAdministrator && (
-                <>
-                  <StyledButton onClick={() => navigate("/home/dashboard")}>
-                    <DashboardOutlined style={{ marginRight: 8 }} />
-                    Painel
-                  </StyledButton>
-                  <StyledButton onClick={() => navigate("/home/register")}>
-                    <FormOutlined style={{ marginRight: 8 }} />
-                    Registrar produtos
-                  </StyledButton>
-                </>
-              )}
-              <StyledButton onClick={() => navigate("/home/stock")}>
-                <StockOutlined style={{ marginRight: 8 }} />
-                Estoque
-              </StyledButton>
-            </HeaderOptionsContainer>
-            <div
-              style={{ display: "flex", width: "100%", justifyContent: "end" }}
-            >
-              <StyledButton
-                onClick={() => {
-                  dispatch(clearUser());
-                  navigate("/");
-                }}
-              >
-                <LogoutOutlined style={{ marginRight: 8 }} /> Log-out
-              </StyledButton>
-            </div>
-          </>
+        {dimensions.width > 768 ? (
+          <DesktopHeader
+            isLogedIn={isUserLogedIn}
+            user={userRedux}
+            navigate={navigate}
+            clearUser={handleClearUser}
+          />
+        ) : (
+          <MobileHeader
+            isLogedIn={isUserLogedIn}
+            user={userRedux}
+            navigate={navigate}
+            clearUser={handleClearUser}
+          />
         )}
       </HeaderBox>
     </HeaderContent>

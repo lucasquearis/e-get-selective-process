@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-interface UserState {
+export interface UserState {
   fullName: string;
   userName: string;
   isAnAdministrator: boolean;
