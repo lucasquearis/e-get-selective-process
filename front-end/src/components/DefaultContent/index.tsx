@@ -7,13 +7,23 @@ const Content = styled.div`
 `;
 
 const ContentBox = styled.div`
+  padding-top: 80px;
   max-width: 1440px;
   margin: 0px auto;
   min-height: calc(100vh - 160px);
-  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.color.brand[100]};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.color.brand[1000]};
+    border-radius: 10px;
+  }
 `;
 
 export function DefaultContent({ children }: { children: ReactNode }) {

@@ -131,7 +131,11 @@ function RegisterProducts() {
   }, [successMessage]);
 
   return (
-    <BoxForm onSubmit={handleSubmit} ref={formRef}>
+    <BoxForm
+      style={{ margin: "40px auto" }}
+      onSubmit={handleSubmit}
+      ref={formRef}
+    >
       <Heading>Registrar novo produto</Heading>
       <StyledLabel>
         <div style={{ display: "flex" }}>

@@ -101,7 +101,7 @@ function Register() {
   }, [successMessage, sucessTimer]);
 
   return (
-    <BoxForm onSubmit={handleSubmit}>
+    <BoxForm style={{ margin: "40px auto" }} onSubmit={handleSubmit}>
       <Heading>Registre-se!</Heading>
       <StyledLabel>
         Nome completo:

@@ -98,7 +98,7 @@ function Login() {
   }, [loginError]);
 
   return (
-    <BoxForm onSubmit={handleSubmit}>
+    <BoxForm style={{ margin: "40px auto" }} onSubmit={handleSubmit}>
       <Heading>Login</Heading>
       <StyledLabel>
         Nome de usuário:

@@ -42,6 +42,7 @@ export const Burger = styled.button<{
       transform: ${({ open }) => (open ? "rotate(-45deg)" : "rotate(0)")};
     }
   }
+  z-index: 50;
 `;
 
 const Menu = styled.nav<{
@@ -53,11 +54,13 @@ const Menu = styled.nav<{
   background: ${({ theme }) => theme.color.brand[200]};
   text-align: left;
   padding: 2rem;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   transition: transform 0.3s ease-in-out;
   transform: ${({ open }) => (open ? "translateY(0%)" : "translateY(-100%)")};
+  z-index: 20;
+  height: 100%;
 `;
 
 export function StyledMenu({ open, children }: any) {

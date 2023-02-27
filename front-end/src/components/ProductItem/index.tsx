@@ -18,6 +18,7 @@ const Paragraph = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  min-width: 115px;
 `;
 
 export function ProductHeader() {

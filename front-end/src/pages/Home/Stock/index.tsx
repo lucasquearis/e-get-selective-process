@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DefaultContent } from "../../../components/DefaultContent";
 import DeleteProductContent from "../../../components/DeleteProductContent";
 import EditProductContent from "../../../components/EditProductContent";
 import { StyledInput } from "../../../components/Input";
-import { StyledInputMask } from "../../../components/InputMask";
 import { StyledLabel } from "../../../components/Label";
 import Loading from "../../../components/Loading";
 import Modal from "../../../components/Modal";
 import ProductItem, { ProductHeader } from "../../../components/ProductItem";
 import { ProductsList, StyledList } from "../../../components/ProductsList";
 import { Heading } from "../../../components/Text/Heading";
+import { useAppSelector } from "../../../hooks";
 import { getAllProducts, IProduct } from "../../../utils/api";
+import { MOBILE_WIDTH } from "../../../utils/constants";
+
+type IsMobileProp = {
+  isMobile: boolean;
+};
 
 const HeaderStock = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 16px;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.color.white};
   padding: 24px;
   border-radius: 4px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  margin: 24px auto;
+  margin: 24px;
+  flex-wrap: wrap;
+  flex-direction: column;
 `;
 
 export const ModalContent = styled.div`
@@ -32,6 +36,14 @@ export const ModalContent = styled.div`
   gap: 8px;
   padding: 8px;
   word-break: break-all;
+`;
+
+const FiltersContent = styled.div<IsMobileProp>`
+  margin-top: 20px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex-direction: ${({ isMobile }) => (isMobile ? "column" : "row")};
 `;
 
 function Stock() {
@@ -48,6 +60,8 @@ function Stock() {
   const [filteredProducts, setFilteredProducts] = useState<
     IProduct[] | never[]
   >([]);
+  const { dimensions } = useAppSelector((state) => state);
+  const isMobile = dimensions.width < MOBILE_WIDTH;
 
   const fetchApi = async () => {
     setIsFetching(true);
@@ -89,18 +103,20 @@ function Stock() {
   }, [searchByName, searchById, searchByCost, searchBySale, searchByComment]);
 
   return (
-    <>
-      <div style={{ flexDirection: "column" }}>
-        <HeaderStock>
+    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <HeaderStock>
+        <div>
           <Heading>Filtrar produtos por:</Heading>
-          <StyledLabel style={{ maxWidth: "12%" }}>
+        </div>
+        <FiltersContent isMobile={isMobile}>
+          <StyledLabel>
             Nome:
             <StyledInput
               value={searchByName}
               onChange={(e) => setSearchByName(e.target.value)}
             />
           </StyledLabel>
-          <StyledLabel style={{ maxWidth: "12%" }}>
+          <StyledLabel>
             id do produto:
             <StyledInput
               value={searchById}
@@ -108,7 +124,7 @@ function Stock() {
               type="number"
             />
           </StyledLabel>
-          <StyledLabel style={{ maxWidth: "12%" }}>
+          <StyledLabel>
             Preço de custo:
             <StyledInput
               value={searchByCost}
@@ -116,7 +132,7 @@ function Stock() {
               type="number"
             />
           </StyledLabel>
-          <StyledLabel style={{ maxWidth: "12%" }}>
+          <StyledLabel>
             Preço de venda:
             <StyledInput
               value={searchBySale}
@@ -124,14 +140,16 @@ function Stock() {
               type="number"
             />
           </StyledLabel>
-          <StyledLabel style={{ maxWidth: "12%" }}>
+          <StyledLabel>
             Especificação:
             <StyledInput
               value={searchByComment}
               onChange={(e) => setSearchByComment(e.target.value)}
             />
           </StyledLabel>
-        </HeaderStock>
+        </FiltersContent>
+      </HeaderStock>
+      <div>
         {isFetching ? (
           <Loading />
         ) : (
@@ -155,36 +173,36 @@ function Stock() {
             )}
           </ProductsList>
         )}
+        {openDeleteModal && (
+          <Modal
+            title={`Are you sure you want to remove "${currentProduct?.productName}" ?`}
+            onClose={() => setOpenDeleteModal(false)}
+          >
+            {currentProduct && (
+              <DeleteProductContent
+                fetchApi={fetchApi}
+                setOpenModal={setOpenDeleteModal}
+                currentProduct={currentProduct}
+              />
+            )}
+          </Modal>
+        )}
+        {openEditModal && (
+          <Modal
+            title={`Edit ${currentProduct?.productName}`}
+            onClose={() => setOpenEditModal(false)}
+          >
+            {currentProduct && (
+              <EditProductContent
+                currentProduct={currentProduct}
+                setOpenModal={setOpenEditModal}
+                fetchApi={fetchApi}
+              />
+            )}
+          </Modal>
+        )}
       </div>
-      {openDeleteModal && (
-        <Modal
-          title={`Are you sure you want to remove "${currentProduct?.productName}" ?`}
-          onClose={() => setOpenDeleteModal(false)}
-        >
-          {currentProduct && (
-            <DeleteProductContent
-              fetchApi={fetchApi}
-              setOpenModal={setOpenDeleteModal}
-              currentProduct={currentProduct}
-            />
-          )}
-        </Modal>
-      )}
-      {openEditModal && (
-        <Modal
-          title={`Edit ${currentProduct?.productName}`}
-          onClose={() => setOpenEditModal(false)}
-        >
-          {currentProduct && (
-            <EditProductContent
-              currentProduct={currentProduct}
-              setOpenModal={setOpenEditModal}
-              fetchApi={fetchApi}
-            />
-          )}
-        </Modal>
-      )}
-    </>
+    </div>
   );
 }
 

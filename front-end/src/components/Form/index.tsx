@@ -4,6 +4,7 @@ export const BoxForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  height: max-content;
   background-color: ${({ theme }) => theme.color.white};
   padding: 24px;
   border-radius: 10px;
