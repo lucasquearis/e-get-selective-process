@@ -62,6 +62,8 @@ function RegisterProducts() {
     }
     setBase64Image(undefined);
     setFileUploadedValue(undefined);
+    setCostPrice("");
+    setSalePrice("");
   };
 
   const handleSubmit = async (e: SyntheticEvent) => {

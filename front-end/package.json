@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "db": "json-server --watch db.json --port 8080",
-    "dev": "vite --port 3000",
+    "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker-image": "docker build -t e-get-front-end .",
+    "docker-container": "docker run -d --rm -p 3000:3000 --name e-get-front-end e-get-front-end"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
