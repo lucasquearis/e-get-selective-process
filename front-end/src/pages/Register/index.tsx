@@ -28,7 +28,7 @@ function Register() {
   const navigate = useNavigate();
   const { user: userRedux } = useAppSelector((state) => state);
   const [registerError, setRegisterError] = useState("");
-  const [isAnAdministrator, setIsAnAdministrator] = useState(false);
+  const [isAnAdministrator, setIsAnAdministrator] = useState(true);
   const [isFetching, setIsFetchig] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [sucessTimer, setSuccessTimer] = useState(5);

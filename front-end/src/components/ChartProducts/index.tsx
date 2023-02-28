@@ -22,7 +22,6 @@ const convertName = {
 
 function StyledChartProducts({ products }: IProductsChart) {
   const theme = useContext(PersonalThemeContext);
-  console.log(theme);
   const data = useMemo(
     () =>
       Object.entries(products)

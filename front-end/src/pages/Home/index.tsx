@@ -72,16 +72,20 @@ function Home() {
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <p>Administrador:</p>
           {userRedux.isAnAdministrator ? (
-            <SuccessText>POSITIVO</SuccessText>
+            <SuccessText style={{ fontWeight: 600, letterSpacing: 2 }}>
+              POSITIVO
+            </SuccessText>
           ) : (
-            <ErrorText>NEGATIVO</ErrorText>
+            <ErrorText style={{ fontWeight: 600, letterSpacing: 2 }}>
+              NEGATIVO
+            </ErrorText>
           )}
         </div>
       </HeaderHome>
       <BodyContainer isMobile={isMobile}>
         <Welcome isMobile={isMobile} src={welcome}></Welcome>
         <NewsContainer isMobile={isMobile}>
-          <Heading>Próximos updates!</Heading>
+          <Heading>Próximas atualizações!</Heading>
           <NewsUl>
             <li>Testes completos com RTL.</li>
             <li>Opção para adicionar mais de um produto por vez.</li>

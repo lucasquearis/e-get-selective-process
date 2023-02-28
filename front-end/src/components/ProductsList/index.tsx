@@ -16,7 +16,7 @@ export const ProductsList = styled.ul`
     background: ${({ theme }) => theme.color.brand[1000]};
     border-radius: 10px;
   }
-  max-height: 400px;
+  height: 400px;
   overflow: auto;
   position: relative;
   z-index: 1;
