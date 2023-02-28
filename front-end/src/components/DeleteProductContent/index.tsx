@@ -18,7 +18,7 @@ import { ErrorText } from "../Text/Error";
 
 interface IDeleteProductModal {
   setOpenModal: Dispatch<React.SetStateAction<boolean>>;
-  fetchApi: () => Promise<void>;
+  fetchApi: () => void;
   currentProduct: IProduct;
 }
 

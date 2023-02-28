@@ -4,10 +4,10 @@ import ErrorHandler from "./pages/Error";
 import Home from "./pages/Home";
 import DashBoard from "./pages/Home/Dashboard";
 import RegisterProducts from "./pages/Home/RegisterProducts";
-import Stock from "./pages/Home/Stock";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DefaultWrapper from "./template/Wrapper";
+import ClassInterceptor from "./components/ClassInterceptor";
 
 const router = createBrowserRouter([
   {
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
     path: "/home/stock",
     element: (
       <DefaultWrapper>
-        <Stock />
+        <ClassInterceptor />
       </DefaultWrapper>
     ),
     errorElement: <ErrorHandler />,

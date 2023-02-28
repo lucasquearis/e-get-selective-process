@@ -22,7 +22,7 @@ const FlexWithGap = styled.div`
 `;
 interface IEditProductModal {
   setOpenModal: Dispatch<React.SetStateAction<boolean>>;
-  fetchApi: () => Promise<void>;
+  fetchApi: () => void;
   currentProduct: IProduct;
 }
 

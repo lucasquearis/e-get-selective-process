@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Component, ReactNode, FormEvent } from "react";
 import styled from "styled-components";
 import DeleteProductContent from "../../../components/DeleteProductContent";
 import EditProductContent from "../../../components/EditProductContent";
@@ -9,12 +9,12 @@ import Modal from "../../../components/Modal";
 import ProductItem, { ProductHeader } from "../../../components/ProductItem";
 import { ProductsList, StyledList } from "../../../components/ProductsList";
 import { Heading } from "../../../components/Text/Heading";
-import { useAppSelector } from "../../../hooks";
 import { getAllProducts, IProduct } from "../../../utils/api";
-import { MOBILE_WIDTH } from "../../../utils/constants";
+import { DimensionsState } from "../../../redux/reducers/dimensionsResize";
 
 export type IsMobileProp = {
-  isMobile: boolean;
+  isMobile?: boolean;
+  dimensions?: DimensionsState;
 };
 
 const HeaderStock = styled.div`
@@ -46,51 +46,79 @@ const FiltersContent = styled.div<IsMobileProp>`
   flex-direction: ${({ isMobile }) => (isMobile ? "column" : "row")};
 `;
 
-function Stock() {
-  const [products, setProducts] = useState<IProduct[] | never[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState<IProduct | undefined>();
-  const [searchByName, setSearchByName] = useState("");
-  const [searchById, setSearchById] = useState("");
-  const [searchByCost, setSearchByCost] = useState("");
-  const [searchBySale, setSearchBySale] = useState("");
-  const [searchByComment, setSearchByComment] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState<
-    IProduct[] | never[]
-  >([]);
-  const { dimensions } = useAppSelector((state) => state);
-  const isMobile = useMemo(
-    () => dimensions.width < MOBILE_WIDTH,
-    [dimensions.width]
-  );
+interface IProps {
+  children?: ReactNode;
+  dimensions: DimensionsState;
+  isMobile: boolean;
+}
+interface IState {
+  products: IProduct[] | never[];
+  filteredProducts: IProduct[] | never[];
+  isFetching: boolean;
+  openDeleteModal: boolean;
+  openEditModal: boolean;
+  currentProduct: IProduct | undefined;
+  searchByName: string;
+  searchById: string;
+  searchByCost: string;
+  searchBySale: string;
+  searchByComment: string;
+}
 
-  const fetchApi = async () => {
-    setIsFetching(true);
-    const response = await getAllProducts();
-    if (response?.data) {
-      setProducts(response.data);
-      setFilteredProducts(response.data);
-      setIsFetching(false);
+class Stock extends Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      products: [],
+      isFetching: false,
+      openDeleteModal: false,
+      openEditModal: false,
+      currentProduct: undefined,
+      searchByName: "",
+      searchById: "",
+      searchByCost: "",
+      searchBySale: "",
+      searchByComment: "",
+      filteredProducts: [],
+    };
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleOpenEditModal = this.handleOpenEditModal.bind(this);
+    this.handleOpenDeleteModal = this.handleOpenDeleteModal.bind(this);
+    this.fetchApi = this.fetchApi.bind(this);
+  }
+
+  componentDidMount(): void {
+    this.fetchApi();
+    this.filterProducts();
+  }
+
+  componentDidUpdate(
+    _prevProps: Readonly<IProps>,
+    prevState: Readonly<IState>
+  ): void {
+    if (
+      prevState.searchByName !== this.state.searchByName ||
+      prevState.searchById !== this.state.searchById ||
+      prevState.searchByCost !== this.state.searchByCost ||
+      prevState.searchBySale !== this.state.searchBySale ||
+      prevState.searchByComment !== this.state.searchByComment
+    ) {
+      this.filterProducts();
     }
-  };
+  }
 
-  const handleDelete = (product: IProduct) => {
-    setCurrentProduct(product);
-    setOpenDeleteModal(true);
-  };
+  filterProducts = () => {
+    const {
+      products,
+      searchByName,
+      searchById,
+      searchByCost,
+      searchBySale,
+      searchByComment,
+    } = this.state;
 
-  const handleEdit = (product: IProduct) => {
-    setCurrentProduct(product);
-    setOpenEditModal(true);
-  };
-
-  useEffect(() => {
-    fetchApi();
-  }, []);
-
-  useEffect(() => {
     const newArray = products
       .filter((product) =>
         product.productName.toLowerCase().includes(searchByName.toLowerCase())
@@ -102,111 +130,183 @@ function Stock() {
       .filter((product) => product.costPrice.includes(searchByCost))
       .filter((product) => product.salePrice.includes(searchBySale));
 
-    setFilteredProducts(newArray);
-  }, [searchByName, searchById, searchByCost, searchBySale, searchByComment]);
+    this.setState((state) => ({ ...state, filteredProducts: newArray }));
+  };
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <HeaderStock>
+  async fetchApi() {
+    this.setState((state) => ({ ...state, isFetching: true }));
+    const response = await getAllProducts();
+    if (response?.data) {
+      this.setState((state) => ({
+        ...state,
+        products: response.data,
+        filteredProducts: response.data,
+        isFetching: false,
+      }));
+    }
+  }
+
+  handleDelete(product: IProduct) {
+    this.setState((state) => ({
+      ...state,
+      currentProduct: product,
+      openDeleteModal: true,
+    }));
+  }
+
+  handleEdit(product: IProduct) {
+    this.setState((state) => ({
+      ...state,
+      currentProduct: product,
+      openEditModal: true,
+    }));
+  }
+
+  handleChange(event: FormEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
+    this.setState((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  }
+
+  handleOpenDeleteModal() {
+    this.setState((state) => ({
+      ...state,
+      openDeleteModal: !state.openDeleteModal,
+    }));
+  }
+
+  handleOpenEditModal() {
+    this.setState((state) => ({
+      ...state,
+      openEditModal: !state.openEditModal,
+    }));
+  }
+
+  render() {
+    const { isMobile } = this.props;
+    const {
+      searchByName,
+      searchById,
+      searchByCost,
+      searchBySale,
+      searchByComment,
+      currentProduct,
+      filteredProducts,
+      isFetching,
+      openDeleteModal,
+      openEditModal,
+    } = this.state;
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <HeaderStock>
+          <div>
+            <Heading>Filtrar produtos por:</Heading>
+          </div>
+          <FiltersContent isMobile={isMobile}>
+            <StyledLabel>
+              Nome:
+              <StyledInput
+                name="searchByName"
+                value={searchByName}
+                onChange={this.handleChange}
+              />
+            </StyledLabel>
+            <StyledLabel>
+              id do produto:
+              <StyledInput
+                value={searchById}
+                name="searchById"
+                onChange={this.handleChange}
+                type="number"
+              />
+            </StyledLabel>
+            <StyledLabel>
+              Preço de custo:
+              <StyledInput
+                value={searchByCost}
+                name="searchByCost"
+                onChange={this.handleChange}
+                type="number"
+              />
+            </StyledLabel>
+            <StyledLabel>
+              Preço de venda:
+              <StyledInput
+                value={searchBySale}
+                name="searchBySale"
+                onChange={this.handleChange}
+                type="number"
+              />
+            </StyledLabel>
+            <StyledLabel>
+              Especificação:
+              <StyledInput
+                value={searchByComment}
+                name="searchByComment"
+                onChange={this.handleChange}
+              />
+            </StyledLabel>
+          </FiltersContent>
+        </HeaderStock>
         <div>
-          <Heading>Filtrar produtos por:</Heading>
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <ProductsList>
+              {filteredProducts.length > 0 ? (
+                <>
+                  <ProductHeader />
+                  {filteredProducts.map((product) => (
+                    <ProductItem
+                      key={product.id}
+                      product={product}
+                      handleDelete={this.handleDelete}
+                      handleEdit={this.handleEdit}
+                    />
+                  ))}
+                </>
+              ) : (
+                <StyledList style={{ justifyContent: "center" }}>
+                  Nenhum produto cadastrado!
+                </StyledList>
+              )}
+            </ProductsList>
+          )}
+          {openDeleteModal && (
+            <Modal
+              title={`Você tem certeza que deseja remover "${currentProduct?.productName}" ?`}
+              onClose={this.handleOpenDeleteModal}
+            >
+              {currentProduct && (
+                <DeleteProductContent
+                  fetchApi={this.fetchApi}
+                  setOpenModal={this.handleOpenDeleteModal}
+                  currentProduct={currentProduct}
+                />
+              )}
+            </Modal>
+          )}
+          {openEditModal && (
+            <Modal
+              title={`Edit ${currentProduct?.productName}`}
+              onClose={this.handleOpenEditModal}
+            >
+              {currentProduct && (
+                <EditProductContent
+                  currentProduct={currentProduct}
+                  setOpenModal={this.handleOpenEditModal}
+                  fetchApi={this.fetchApi}
+                />
+              )}
+            </Modal>
+          )}
         </div>
-        <FiltersContent isMobile={isMobile}>
-          <StyledLabel>
-            Nome:
-            <StyledInput
-              value={searchByName}
-              onChange={(e) => setSearchByName(e.target.value)}
-            />
-          </StyledLabel>
-          <StyledLabel>
-            id do produto:
-            <StyledInput
-              value={searchById}
-              onChange={(e) => setSearchById(e.target.value)}
-              type="number"
-            />
-          </StyledLabel>
-          <StyledLabel>
-            Preço de custo:
-            <StyledInput
-              value={searchByCost}
-              onChange={(e) => setSearchByCost(e.target.value)}
-              type="number"
-            />
-          </StyledLabel>
-          <StyledLabel>
-            Preço de venda:
-            <StyledInput
-              value={searchBySale}
-              onChange={(e) => setSearchBySale(e.target.value)}
-              type="number"
-            />
-          </StyledLabel>
-          <StyledLabel>
-            Especificação:
-            <StyledInput
-              value={searchByComment}
-              onChange={(e) => setSearchByComment(e.target.value)}
-            />
-          </StyledLabel>
-        </FiltersContent>
-      </HeaderStock>
-      <div>
-        {isFetching ? (
-          <Loading />
-        ) : (
-          <ProductsList>
-            {filteredProducts.length > 0 ? (
-              <>
-                <ProductHeader />
-                {filteredProducts.map((product) => (
-                  <ProductItem
-                    key={product.id}
-                    product={product}
-                    handleDelete={handleDelete}
-                    handleEdit={handleEdit}
-                  />
-                ))}
-              </>
-            ) : (
-              <StyledList style={{ justifyContent: "center" }}>
-                Nenhum produto cadastrado!
-              </StyledList>
-            )}
-          </ProductsList>
-        )}
-        {openDeleteModal && (
-          <Modal
-            title={`Você tem certeza que deseja remover "${currentProduct?.productName}" ?`}
-            onClose={() => setOpenDeleteModal(false)}
-          >
-            {currentProduct && (
-              <DeleteProductContent
-                fetchApi={fetchApi}
-                setOpenModal={setOpenDeleteModal}
-                currentProduct={currentProduct}
-              />
-            )}
-          </Modal>
-        )}
-        {openEditModal && (
-          <Modal
-            title={`Edit ${currentProduct?.productName}`}
-            onClose={() => setOpenEditModal(false)}
-          >
-            {currentProduct && (
-              <EditProductContent
-                currentProduct={currentProduct}
-                setOpenModal={setOpenEditModal}
-                fetchApi={fetchApi}
-              />
-            )}
-          </Modal>
-        )}
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Stock;
