@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {
   AreaChart,
   Area,
@@ -8,52 +7,65 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { IProductsChart } from "../../pages/Home/Dashboard";
+import moment from "moment";
+import { IProduct } from "../../utils/api";
+import { useContext, useMemo } from "react";
+import { PersonalThemeContext } from "../../context/PesonalThemeProvider";
 
-function StyledChartProducts() {
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+const convertName = {
+  activeProducts: "Custo produto ativo",
+  lostProducts: "Custo produto perdido",
+  soldProducts: "Custo produto vendido",
+  expiredProducts: "Custo produto vencido",
+};
+
+function StyledChartProducts({ products }: IProductsChart) {
+  const theme = useContext(PersonalThemeContext);
+  console.log(theme);
+  const data = useMemo(
+    () =>
+      Object.entries(products)
+        .sort((a, b) =>
+          moment(a[0], "DD/MM/YYYY").diff(moment(b[0], "DD/MM/YYYY"))
+        )
+        .map((item) => {
+          const sumCostPrice = (key: number) =>
+            // @ts-ignore
+            Object.values(item)[1][Object.keys(item[1])[key]].reduce(
+              (total: number, product: IProduct) => {
+                return total + parseFloat(product.costPrice);
+              },
+              0
+            );
+          if (Object.keys(item[1])[1] && Object.keys(item[1])[2]) {
+            return {
+              name: item[0],
+              // @ts-ignore
+              [convertName[Object.keys(item[1])[0]]]: sumCostPrice(0),
+              // @ts-ignore
+              [convertName[Object.keys(item[1])[1]]]: sumCostPrice(1),
+              // @ts-ignore
+              [convertName[Object.keys(item[1])[2]]]: sumCostPrice(2),
+            };
+          }
+          if (Object.keys(item[1])[1]) {
+            return {
+              name: item[0],
+              // @ts-ignore
+              [convertName[Object.keys(item[1])[0]]]: sumCostPrice(0),
+              // @ts-ignore
+              [convertName[Object.keys(item[1])[1]]]: sumCostPrice(1),
+            };
+          }
+          return {
+            name: item[0],
+            // @ts-ignore
+            [convertName[Object.keys(item[1])[0]]]: sumCostPrice(0),
+          };
+        }),
+    [products]
+  );
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -74,24 +86,55 @@ function StyledChartProducts() {
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="uv"
+          dataKey="Custo produto perdido"
           stackId="1"
-          stroke="#8884d8"
-          fill="#8884d8"
+          stroke={theme.color.error}
+          fill={theme.color.error}
+          dot={{
+            stroke: theme.color.error,
+            strokeWidth: 1,
+            r: 4,
+            strokeDasharray: "",
+          }}
         />
         <Area
           type="monotone"
-          dataKey="pv"
+          dataKey="Custo produto vencido"
           stackId="1"
-          stroke="#82ca9d"
-          fill="#82ca9d"
+          stroke={theme.color.neutral[600]}
+          fill={theme.color.neutral[600]}
+          dot={{
+            stroke: theme.color.neutral[600],
+            strokeWidth: 1,
+            r: 4,
+            strokeDasharray: "",
+          }}
         />
         <Area
           type="monotone"
-          dataKey="amt"
+          dataKey="Custo produto vendido"
           stackId="1"
-          stroke="#ffc658"
-          fill="#ffc658"
+          stroke={theme.color.success}
+          fill={theme.color.success}
+          dot={{
+            stroke: theme.color.success,
+            strokeWidth: 1,
+            r: 4,
+            strokeDasharray: "",
+          }}
+        />
+        <Area
+          type="monotone"
+          dataKey="Custo produto ativo"
+          stackId="1"
+          stroke={theme.color.brand[1000]}
+          fill={theme.color.brand[1000]}
+          dot={{
+            stroke: theme.color.brand[1000],
+            strokeWidth: 1,
+            r: 4,
+            strokeDasharray: "",
+          }}
         />
       </AreaChart>
     </ResponsiveContainer>

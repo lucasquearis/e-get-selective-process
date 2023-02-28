@@ -13,6 +13,7 @@ const ContentBox = styled.div`
   min-height: calc(100vh - 160px);
   display: flex;
   overflow: auto;
+  align-items: center;
   ::-webkit-scrollbar {
     width: 10px;
     height: 8px;

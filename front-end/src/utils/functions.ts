@@ -14,7 +14,7 @@ export const getBase64 = (
     }
   };
   reader.onerror = function (error) {
-    console.log("Error: ", error);
+    console.error("Error: ", error);
   };
 };
 

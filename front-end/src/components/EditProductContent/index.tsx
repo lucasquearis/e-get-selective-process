@@ -170,10 +170,9 @@ function EditProductContent({
                   prefix="R$"
                   style={{ width: "100%" }}
                   value={costPrice.value}
-                  onValueChange={(value) => {
-                    console.log(value, typeof value);
-                    setCostPrice((prevState) => handleValue(prevState, value));
-                  }}
+                  onValueChange={(value) =>
+                    setCostPrice((prevState) => handleValue(prevState, value))
+                  }
                 />
               ) : (
                 <p style={{ color: "black" }}>{costPrice.value}</p>

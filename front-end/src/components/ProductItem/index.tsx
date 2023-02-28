@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 import { IProduct } from "../../utils/api";
 import { toRealCurrency } from "../../utils/functions";
@@ -38,7 +39,11 @@ export function ProductHeader() {
   );
 }
 
-function ProductItem({ product, handleEdit, handleDelete }: IProductItem) {
+const ProductItem = memo(function ProductItem({
+  product,
+  handleEdit,
+  handleDelete,
+}: IProductItem) {
   return (
     <>
       <StyledList style={{ padding: "30px 0" }}>
@@ -61,6 +66,5 @@ function ProductItem({ product, handleEdit, handleDelete }: IProductItem) {
       </StyledList>
     </>
   );
-}
-
+});
 export default ProductItem;

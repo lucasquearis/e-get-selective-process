@@ -16,7 +16,7 @@ export interface IProduct {
   purchaseDate: string;
   dueDate: string;
   comments: string;
-  base64Image: string | undefined;
+  base64Image?: string | undefined;
   id?: number;
 }
 

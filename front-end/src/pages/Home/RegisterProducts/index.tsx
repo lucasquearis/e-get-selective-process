@@ -56,8 +56,6 @@ function RegisterProducts() {
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
-  const isMobile = dimensions.width < MOBILE_WIDTH;
-
   const resetFields = () => {
     setDueDate("");
     if (formRef?.current) {
@@ -72,14 +70,9 @@ function RegisterProducts() {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     // @ts-ignore
-    const [
-      { value: productName },
-      { value: x },
-      { value: y },
-      { value: purchaseDate },
-      { value: dueDate },
-      { value: comments },
-    ] = e.target;
+    const comments = e.target.comments.value;
+    // @ts-ignore
+    const productName = e.target.productName.value;
     const errorMessage = checkRequiredFields({
       productName,
       costPrice,
@@ -141,7 +134,7 @@ function RegisterProducts() {
         <div style={{ display: "flex" }}>
           Nome do produto<ErrorText>*</ErrorText>:
         </div>
-        <StyledInput />
+        <StyledInput name="productName" />
       </StyledLabel>
       <StyledLabel>
         Imagem do produto:
@@ -178,6 +171,7 @@ function RegisterProducts() {
           Data de compra<ErrorText>*</ErrorText>:
         </div>
         <StyledInputMask
+          name="purchaseDate"
           value={purchaseDate}
           onChange={(e) => setPurchaseDate(e.target.value)}
           mask="99/99/9999"
@@ -188,6 +182,7 @@ function RegisterProducts() {
           Data de vencimento<ErrorText>*</ErrorText>:
         </div>
         <StyledInputMask
+          name="dueDate"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
           mask="99/99/9999"
@@ -195,7 +190,7 @@ function RegisterProducts() {
       </StyledLabel>
       <StyledLabel>
         Especificações:
-        <StyledTextArea rows={4} />
+        <StyledTextArea name="comments" rows={4} />
       </StyledLabel>
       {registerError && <ErrorText>{registerError}</ErrorText>}
       {successMessage && <SuccessText>{successMessage}</SuccessText>}

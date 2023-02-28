@@ -28,7 +28,9 @@ function DeleteProductContent({
   currentProduct,
 }: IDeleteProductModal) {
   const [isFetching, setIsFetching] = useState(false);
-  const [productStatus, setProductStatus] = useState("");
+  const [productStatus, setProductStatus] = useState(
+    "Produto adicionado sem querer"
+  );
   const [soldDate, setSoldDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -108,7 +110,7 @@ function DeleteProductContent({
               <option>Produto vendido</option>
             </StyledSelect>
           </StyledLabel>
-          {productStatus === "Product sold" && (
+          {productStatus === "Produto vendido" && (
             <StyledLabel style={{ alignItems: "center" }}>
               <p style={{ alignSelf: "self-start" }}>
                 Data em que o produto foi vendido:

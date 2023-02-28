@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../hooks";
 import { DefaultContent } from "../../components/DefaultContent";
 import { ReactNode, useEffect } from "react";
 import { setDimensions } from "../../redux/reducers/dimensionsResize";
+import { PersonalThemeProvider } from "../../context/PesonalThemeProvider";
 
 function DefaultWrapper({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
@@ -26,11 +27,11 @@ function DefaultWrapper({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <>
+    <PersonalThemeProvider>
       <Header />
       <DefaultContent>{children}</DefaultContent>
       <Footer />
-    </>
+    </PersonalThemeProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import DeleteProductContent from "../../../components/DeleteProductContent";
 import EditProductContent from "../../../components/EditProductContent";
@@ -13,7 +13,7 @@ import { useAppSelector } from "../../../hooks";
 import { getAllProducts, IProduct } from "../../../utils/api";
 import { MOBILE_WIDTH } from "../../../utils/constants";
 
-type IsMobileProp = {
+export type IsMobileProp = {
   isMobile: boolean;
 };
 
@@ -61,7 +61,10 @@ function Stock() {
     IProduct[] | never[]
   >([]);
   const { dimensions } = useAppSelector((state) => state);
-  const isMobile = dimensions.width < MOBILE_WIDTH;
+  const isMobile = useMemo(
+    () => dimensions.width < MOBILE_WIDTH,
+    [dimensions.width]
+  );
 
   const fetchApi = async () => {
     setIsFetching(true);
