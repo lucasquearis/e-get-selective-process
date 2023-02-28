@@ -15,7 +15,7 @@ A aplicação possui as seguintes funcionalidades:
 
 # <a name="initApp"></a> Iniciando a Aplicação
 
-Para iniciar a aplicação primeiramente clone este repositorio com o seguinte comando e entre na pasta raíz do projeto:
+Para iniciar a aplicação primeiramente clone este repositório com o seguinte comando e entre na pasta raiz do projeto:
 
 ```bash
   git clone git@github.com:lucasquearis/e-get-selective-process.git
@@ -48,7 +48,7 @@ Acesse o back-end através desse link:
 <details><summary>CLIQUE AQUI para instruções docker</summary>
 <hr>
 
-Estando na pasta raíz do projeto, use os seguintes comandos para entrar no diretório do back-end, montar a imagem docker e subir o container:
+Estando na pasta raiz do projeto, use os seguintes comandos para entrar no diretório do back-end, montar a imagem docker e subir o container:
 
 ```bash
    cd back-end
@@ -78,7 +78,7 @@ Acesse o front-end através desse link:
 <details><summary>CLIQUE AQUI para instruções convencional</summary>
 <hr>
 
-Estando na pasta raíz do projeto, use os seguintes comandos para entrar no diretório do back-end, instalar as dependencias e inicia-lo:
+Estando na pasta raiz do projeto, use os seguintes comandos para entrar no diretório do back-end, instalar as dependências e iniciá-lo:
 
 ```bash
    cd back-end
@@ -89,7 +89,7 @@ Estando na pasta raíz do projeto, use os seguintes comandos para entrar no dire
 Com o back-end online você pode acessar a api através desse link:
 <http://localhost:8080/>
 
-Abra outro terminal para subir o front-end, entre no repositório raiz do projeto, instale todas as dependencias e inicie:
+Abra outro terminal para subir o front-end, entre no repositório raiz do projeto, instale todas as dependências e inicie:
 
 ```bash
    cd front-end
