@@ -86,6 +86,30 @@ export const getAllProducts = async () => {
   }
 };
 
+export const getAllProductsLoss = async () => {
+  try {
+    return axios.get<IProduct[]>(`${URL}loss`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllProductsSold = async () => {
+  try {
+    return axios.get<IProduct[]>(`${URL}sold`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllProductsExpired = async () => {
+  try {
+    return axios.get<IProduct[]>(`${URL}expired`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deleteProduct = async (id: number) => {
   try {
     return axios.delete(`${URL}products/${id}`);

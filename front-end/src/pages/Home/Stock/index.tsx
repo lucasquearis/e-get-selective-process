@@ -175,7 +175,7 @@ function Stock() {
         )}
         {openDeleteModal && (
           <Modal
-            title={`Are you sure you want to remove "${currentProduct?.productName}" ?`}
+            title={`Você tem certeza que deseja remover "${currentProduct?.productName}" ?`}
             onClose={() => setOpenDeleteModal(false)}
           >
             {currentProduct && (

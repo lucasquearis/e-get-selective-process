@@ -117,7 +117,7 @@ function EditProductContent({
       <ModalContent>
         {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
         <StyledLabel>
-          Product image:
+          Imagem do produto:
           <FlexWithGap>
             {base64Image.isEditing ? (
               <>
@@ -144,7 +144,7 @@ function EditProductContent({
           </FlexWithGap>
         </StyledLabel>
         <StyledLabel>
-          Product name:
+          Nome do produto:
           <FlexWithGap>
             {productName.isEditing ? (
               <StyledInput
@@ -163,7 +163,7 @@ function EditProductContent({
         </StyledLabel>
         <div style={{ display: "flex" }}>
           <StyledLabel style={{ width: "50%" }}>
-            Cost price:
+            Preço de custo:
             <FlexWithGap>
               {costPrice.isEditing ? (
                 <StyledCurrencyInput
@@ -182,7 +182,7 @@ function EditProductContent({
             </FlexWithGap>
           </StyledLabel>
           <StyledLabel style={{ width: "50%" }}>
-            Sale price:
+            Preço de venda:
             <FlexWithGap>
               {salePrice.isEditing ? (
                 <StyledCurrencyInput
@@ -202,7 +202,7 @@ function EditProductContent({
         </div>
         <div style={{ display: "flex" }}>
           <StyledLabel style={{ width: "50%" }}>
-            Purchase date:
+            Data de compra:
             <FlexWithGap>
               {purchaseDate.isEditing ? (
                 <StyledInputMask
@@ -222,7 +222,7 @@ function EditProductContent({
             </FlexWithGap>
           </StyledLabel>
           <StyledLabel style={{ width: "50%" }}>
-            Due date:
+            Data de vencimento:
             <FlexWithGap>
               {dueDate.isEditing ? (
                 <StyledInputMask
@@ -243,7 +243,7 @@ function EditProductContent({
           </StyledLabel>
         </div>
         <StyledLabel>
-          Comments:
+          Especificações:
           <FlexWithGap>
             {comments.isEditing ? (
               <StyledTextArea
@@ -263,7 +263,7 @@ function EditProductContent({
       </ModalContent>
       <ModalFooter>
         <StyledButton disabled={isFetching} onClick={confirmUpdate}>
-          Confirm
+          Confirmar
         </StyledButton>
       </ModalFooter>
     </>

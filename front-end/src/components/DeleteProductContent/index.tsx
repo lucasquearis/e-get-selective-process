@@ -39,20 +39,22 @@ function DeleteProductContent({
       setOpenModal(false);
       fetchApi();
     } else {
-      setErrorMessage("Error deleting product, contact support!");
+      setErrorMessage(
+        "Erro ao excluir o produto, entre em contato com o suporte!"
+      );
       setIsFetching(false);
     }
   };
 
   const checkToSold = async () => {
     if (!soldDate) {
-      return setErrorMessage("Sold date is required!");
+      return setErrorMessage("A data de venda é obrigatória!");
     }
     if (
       !moment(soldDate, "DD/MM/YYYY").isValid() ||
       soldDate.replace(/[^\d]/g, "").length !== 8
     ) {
-      return setErrorMessage("Sold date invalid format!");
+      return setErrorMessage("Data de venda formato inválido!");
     }
     setIsFetching(true);
     const response = await addToSold({ ...currentProduct, soldDate });
@@ -63,16 +65,25 @@ function DeleteProductContent({
     e.preventDefault();
     // @ts-ignore
     const selectedResponse = e.target[0].value;
-    if (selectedResponse === "Product sold") {
+    if (selectedResponse === "Produto vendido") {
       checkToSold();
     }
-    if (selectedResponse === "Lost product") {
+    if (selectedResponse === "Produto perdido") {
       const lostResponse = await addToLoss(currentProduct);
       deleteDefault(lostResponse);
     }
-    if (selectedResponse === "Expired product") {
+    if (selectedResponse === "Produto vencido") {
       const expiredResponse = await addToExpired(currentProduct);
       deleteDefault(expiredResponse);
+    }
+    if (
+      selectedResponse === "Produto adicionado sem querer" &&
+      currentProduct.id
+    ) {
+      await deleteProduct(currentProduct.id);
+      setIsFetching(false);
+      setOpenModal(false);
+      fetchApi();
     }
   };
 
@@ -89,17 +100,18 @@ function DeleteProductContent({
       <form onSubmit={confirmDelete}>
         <ModalContent>
           <StyledLabel>
-            Select the reason for removing this product:
+            Selecione o motivo para remover esse produto:
             <StyledSelect onChange={(e) => setProductStatus(e.target.value)}>
-              <option>Lost product</option>
-              <option>Expired product</option>
-              <option>Product sold</option>
+              <option>Produto adicionado sem querer</option>
+              <option>Produto perdido</option>
+              <option>Produto vencido</option>
+              <option>Produto vendido</option>
             </StyledSelect>
           </StyledLabel>
           {productStatus === "Product sold" && (
             <StyledLabel style={{ alignItems: "center" }}>
               <p style={{ alignSelf: "self-start" }}>
-                Date the product was sold:
+                Data em que o produto foi vendido:
               </p>
               <StyledInputMask
                 value={soldDate}
@@ -113,7 +125,7 @@ function DeleteProductContent({
         </ModalContent>
         <ModalFooter>
           <StyledButton type="submit" disabled={isFetching}>
-            Confirm
+            Confirmar
           </StyledButton>
         </ModalFooter>
       </form>
