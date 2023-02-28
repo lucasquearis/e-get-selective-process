@@ -12,6 +12,6 @@
   "author": "Lucas A. Santos",
   "license": "ISC",
   "dependencies": {
-    "json-server": "^0.17.2"
+    "json-server": "0.17.2"
   }
 }
