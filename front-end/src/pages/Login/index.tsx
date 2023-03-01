@@ -32,6 +32,8 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user: userRedux } = useAppSelector((state) => state);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
@@ -80,8 +82,6 @@ function Login() {
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    // @ts-ignore
-    const [{ value: userName }, { value: password }] = event.target;
     if (!userName || !password) {
       return setLoginError("Nome de usuário e senha são necessários!");
     }
@@ -120,11 +120,22 @@ function Login() {
       <Heading>Login</Heading>
       <StyledLabel>
         Nome de usuário:
-        <StyledInput ref={userNameRef} />
+        <StyledInput
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          data-testid="test-input-username"
+          ref={userNameRef}
+        />
       </StyledLabel>
       <StyledLabel>
         Senha:
-        <StyledInput type="password" ref={passwordRef} />
+        <StyledInput
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          data-testid="test-input-password"
+          type="password"
+          ref={passwordRef}
+        />
       </StyledLabel>
       {loginError && <ErrorText>{loginError}</ErrorText>}
       {fetchError.boolean && (
@@ -134,13 +145,18 @@ function Login() {
         </ErrorText>
       )}
       <ButtonContainer>
-        <StyledButton disabled={isFetching} type="submit">
+        <StyledButton
+          data-testid="test-button-login"
+          disabled={isFetching}
+          type="submit"
+        >
           {isFetching ? <Loading forButton /> : "Entrar"}
         </StyledButton>
         <NoStyleButton
           style={{ marginTop: "30px" }}
           type="button"
           onClick={() => navigate("/register")}
+          data-testid="test-button-register"
         >
           <Paragraph>
             Ainda não tem cadastro?{" "}

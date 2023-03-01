@@ -34,6 +34,9 @@ function Register() {
   const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
   const [successMessage, setSuccessMessage] = useState("");
   const [sucessTimer, setSuccessTimer] = useState(5);
+  const [fullName, setFullname] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
   const checkUserData = ({ fullName, userName, password }: ICheckUserData) => {
     if (!fullName || !userName || !password) {
@@ -55,10 +58,6 @@ function Register() {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    // @ts-ignore
-    const [{ value: fullName }, { value: userName }, { value: password }] =
-      event.target;
-
     const errorMessage = checkUserData({ fullName, userName, password });
 
     if (errorMessage) return setRegisterError(errorMessage);
@@ -123,15 +122,28 @@ function Register() {
       <Heading>Registre-se!</Heading>
       <StyledLabel>
         Nome completo:
-        <StyledInput />
+        <StyledInput
+          value={fullName}
+          onChange={(e) => setFullname(e.target.value)}
+          data-testid="test-full-name-input"
+        />
       </StyledLabel>
       <StyledLabel>
         Nome de usuário:
-        <StyledInput />
+        <StyledInput
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          data-testid="test-username-input"
+        />
       </StyledLabel>
       <StyledLabel>
         Senha:
-        <StyledInput type="password" />
+        <StyledInput
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          data-testid="test-password-input"
+          type="password"
+        />
       </StyledLabel>
       <div
         style={{
@@ -145,7 +157,11 @@ function Register() {
         <Paragraph>Eu quero ser um administrador!</Paragraph>
       </div>
       <div>
-        {registerError && <ErrorText>{registerError}</ErrorText>}
+        {registerError && (
+          <ErrorText data-testid="test-invalid-register-message">
+            {registerError}
+          </ErrorText>
+        )}
         {fetchError.boolean && (
           <ErrorText>
             Erro ao carregar api, contate o suporte. Error message:{" "}
@@ -160,7 +176,11 @@ function Register() {
         )}
       </div>
       <ButtonContainer>
-        <StyledButton disabled={isFetching} type="submit">
+        <StyledButton
+          data-testid="test-register-button"
+          disabled={isFetching}
+          type="submit"
+        >
           {isFetching ? <Loading forButton /> : "Registrar"}
         </StyledButton>
         <NoStyleButton
