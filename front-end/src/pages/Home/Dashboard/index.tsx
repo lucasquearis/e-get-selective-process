@@ -168,7 +168,7 @@ function DashBoard() {
   }, []);
 
   return isFetching ? (
-    <LoadingContent>
+    <LoadingContent data-testid="test-loading-svg">
       <Loading />
     </LoadingContent>
   ) : fetchError.boolean ? (

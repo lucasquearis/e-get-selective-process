@@ -68,7 +68,9 @@ function Home() {
   return (
     <HomeContainer>
       <HeaderHome>
-        <Heading>Bem vindo(a), {userRedux.fullName}!</Heading>
+        <Heading data-testid="test-heading-home">
+          Bem vindo(a), {userRedux.fullName}!
+        </Heading>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <p>Administrador:</p>
           {userRedux.isAnAdministrator ? (
