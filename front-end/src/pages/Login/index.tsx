@@ -10,6 +10,7 @@ import { ErrorText } from "../../components/Text/Error";
 import { Heading } from "../../components/Text/Heading";
 import { getUserByUserName, IUser } from "../../utils/api";
 import { setUser } from "../../redux/reducers/users";
+import Loading from "../../components/Loading";
 
 interface IVerifyUserInDB {
   userName: string;
@@ -33,6 +34,7 @@ function Login() {
   const { user: userRedux } = useAppSelector((state) => state);
   const [loginError, setLoginError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
+  const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -55,20 +57,24 @@ function Login() {
   };
 
   const verifyUserInDB = async ({ userName, password }: IVerifyUserInDB) => {
-    setIsFetching(true);
-    const response = await getUserByUserName({ userName });
+    try {
+      setIsFetching(true);
+      const response = await getUserByUserName({ userName });
 
-    if (!response?.data.length) {
-      setLoginError("Usuário não cadastrado.");
-      return setIsFetching(false);
-    }
+      if (!response?.data.length) {
+        setLoginError("Usuário não cadastrado.");
+        return setIsFetching(false);
+      }
 
-    const firstUserRegistered = response.data.find(
-      (user) => user.userName === userName
-    );
+      const firstUserRegistered = response.data.find(
+        (user) => user.userName === userName
+      );
 
-    if (firstUserRegistered) {
-      verifyUserPassword(firstUserRegistered, password);
+      if (firstUserRegistered) {
+        verifyUserPassword(firstUserRegistered, password);
+      }
+    } catch (error: any) {
+      setFetchError({ boolean: true, message: error.message });
     }
   };
 
@@ -93,12 +99,24 @@ function Login() {
     if (!loginError) return;
     const timer = setTimeout(() => {
       setLoginError("");
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, [loginError]);
 
+  useEffect(() => {
+    if (!fetchError.boolean) return;
+    setIsFetching(false);
+    const timer = setTimeout(() => {
+      setFetchError({ boolean: false, message: "" });
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [fetchError]);
+
   return (
-    <BoxForm style={{ margin: "40px auto" }} onSubmit={handleSubmit}>
+    <BoxForm
+      style={{ margin: "40px auto", maxWidth: 250 }}
+      onSubmit={handleSubmit}
+    >
       <Heading>Login</Heading>
       <StyledLabel>
         Nome de usuário:
@@ -108,10 +126,16 @@ function Login() {
         Senha:
         <StyledInput type="password" ref={passwordRef} />
       </StyledLabel>
-      <div>{loginError && <ErrorText>{loginError}</ErrorText>}</div>
+      {loginError && <ErrorText>{loginError}</ErrorText>}
+      {fetchError.boolean && (
+        <ErrorText>
+          Erro ao carregar api, contate o suporte. Error message:{" "}
+          {fetchError.message}
+        </ErrorText>
+      )}
       <ButtonContainer>
         <StyledButton disabled={isFetching} type="submit">
-          Entrar
+          {isFetching ? <Loading forButton /> : "Entrar"}
         </StyledButton>
         <NoStyleButton
           style={{ marginTop: "30px" }}
@@ -120,7 +144,7 @@ function Login() {
         >
           <Paragraph>
             Ainda não tem cadastro?{" "}
-            <span style={{ marginLeft: 8 }}>Registre-se aqui!</span>
+            <span style={{ marginLeft: 4 }}>Registre-se aqui!</span>
           </Paragraph>
         </NoStyleButton>
       </ButtonContainer>

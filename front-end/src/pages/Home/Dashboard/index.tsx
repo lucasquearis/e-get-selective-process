@@ -47,13 +47,14 @@ const ProductsBox = styled.div<IsMobileProp>`
   justify-content: space-between;
 `;
 
-const LoadingContent = styled.div`
+export const LoadingContent = styled.div`
   margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 500px;
   width: 100%;
+  padding: 0px 20px;
 `;
 
 const DashboardContent = styled.div<IsMobileProp>`
@@ -65,6 +66,7 @@ const DashboardContent = styled.div<IsMobileProp>`
 
 function DashBoard() {
   const [isFetching, setIsFetching] = useState(false);
+  const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
   const [products, setProducts] = useState<IgroupedProducts>({});
   const { user: userRedux, dimensions } = useAppSelector((state) => state);
   const navigate = useNavigate();
@@ -134,16 +136,27 @@ function DashBoard() {
 
   const getAllProductsInDB = async () => {
     setIsFetching(true);
-    const productsFetch = await getAllProducts();
-    const productsLossFetch = await getAllProductsLoss();
-    const productsExpiredFetch = await getAllProductsExpired();
-    const productsSoldFetch = await getAllProductsSold();
-    prepareProductsBase({
-      productsFetch: productsFetch?.data || [],
-      productsLossFetch: productsLossFetch?.data || [],
-      productsSoldFetch: productsSoldFetch?.data || [],
-      productsExpiredFetch: productsExpiredFetch?.data || [],
-    });
+    try {
+      const [
+        productsFetch,
+        productsLossFetch,
+        productsExpiredFetch,
+        productsSoldFetch,
+      ] = await Promise.all([
+        getAllProducts(),
+        getAllProductsLoss(),
+        getAllProductsExpired(),
+        getAllProductsSold(),
+      ]);
+      prepareProductsBase({
+        productsFetch: productsFetch?.data || [],
+        productsLossFetch: productsLossFetch?.data || [],
+        productsSoldFetch: productsSoldFetch?.data || [],
+        productsExpiredFetch: productsExpiredFetch?.data || [],
+      });
+    } catch (error: any) {
+      setFetchError({ boolean: true, message: error.message });
+    }
     setIsFetching(false);
   };
 
@@ -157,6 +170,13 @@ function DashBoard() {
   return isFetching ? (
     <LoadingContent>
       <Loading />
+    </LoadingContent>
+  ) : fetchError.boolean ? (
+    <LoadingContent>
+      <Heading>
+        Erro ao carregar api, contate o suporte. Error message:{" "}
+        {fetchError.message}
+      </Heading>
     </LoadingContent>
   ) : (
     <DashboardContent isMobile={isMobile}>

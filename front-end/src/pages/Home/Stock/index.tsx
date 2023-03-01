@@ -11,6 +11,7 @@ import { ProductsList, StyledList } from "../../../components/ProductsList";
 import { Heading } from "../../../components/Text/Heading";
 import { getAllProducts, IProduct } from "../../../utils/api";
 import { DimensionsState } from "../../../redux/reducers/dimensionsResize";
+import { LoadingContent } from "../Dashboard";
 
 export type IsMobileProp = {
   isMobile?: boolean;
@@ -55,6 +56,7 @@ interface IState {
   products: IProduct[] | never[];
   filteredProducts: IProduct[] | never[];
   isFetching: boolean;
+  fetchError: { boolean: boolean; message: string };
   openDeleteModal: boolean;
   openEditModal: boolean;
   currentProduct: IProduct | undefined;
@@ -71,6 +73,7 @@ class Stock extends Component<IProps, IState> {
     this.state = {
       products: [],
       isFetching: false,
+      fetchError: { boolean: false, message: "" },
       openDeleteModal: false,
       openEditModal: false,
       currentProduct: undefined,
@@ -91,7 +94,6 @@ class Stock extends Component<IProps, IState> {
 
   componentDidMount(): void {
     this.fetchApi();
-    this.filterProducts();
   }
 
   componentDidUpdate(
@@ -135,13 +137,20 @@ class Stock extends Component<IProps, IState> {
 
   async fetchApi() {
     this.setState((state) => ({ ...state, isFetching: true }));
-    const response = await getAllProducts();
-    if (response?.data) {
+    try {
+      const response = await getAllProducts();
+      if (response?.data) {
+        this.setState((state) => ({
+          ...state,
+          products: response.data,
+          filteredProducts: response.data,
+          isFetching: false,
+        }));
+      }
+    } catch (error: any) {
       this.setState((state) => ({
         ...state,
-        products: response.data,
-        filteredProducts: response.data,
-        isFetching: false,
+        fetchError: { boolean: true, message: error.message },
       }));
     }
   }
@@ -197,9 +206,17 @@ class Stock extends Component<IProps, IState> {
       isFetching,
       openDeleteModal,
       openEditModal,
+      fetchError,
     } = this.state;
 
-    return (
+    return fetchError.boolean ? (
+      <LoadingContent>
+        <Heading>
+          Erro ao carregar api, contate o suporte. Error message:{" "}
+          {fetchError.message}
+        </Heading>
+      </LoadingContent>
+    ) : (
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <HeaderStock>
           <div>

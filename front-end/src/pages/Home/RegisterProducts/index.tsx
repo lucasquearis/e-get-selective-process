@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {
   SetStateAction,
   SyntheticEvent,
@@ -22,13 +21,8 @@ import { ErrorText } from "../../../components/Text/Error";
 import { SuccessText } from "../../../components/Text/Success";
 import { checkRequiredFields } from "../../../utils/functions";
 import { StyledCurrencyInput } from "../../../components/CurrencyInput";
-import { MOBILE_WIDTH } from "../../../utils/constants";
-
-const SimpleFlexGap = styled.div`
-  display: flex;
-  gap: 8px;
-  width: 100%;
-`;
+import { LoadingContent } from "../Dashboard";
+import Loading from "../../../components/Loading";
 
 export interface IRequiredFields {
   productName: string;
@@ -39,7 +33,7 @@ export interface IRequiredFields {
 }
 
 function RegisterProducts() {
-  const { user: userRedux, dimensions } = useAppSelector((state) => state);
+  const { user: userRedux } = useAppSelector((state) => state);
   const [fileUploadedValue, setFileUploadedValue] = useState<
     File | undefined
   >();
@@ -53,6 +47,7 @@ function RegisterProducts() {
   const [registerError, setRegisterError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isFetching, setIsFetching] = useState(false);
+  const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
@@ -82,22 +77,26 @@ function RegisterProducts() {
     });
 
     if (errorMessage) return setRegisterError(errorMessage);
-    setIsFetching(true);
-    const response = await addProduct({
-      productName,
-      costPrice: costPrice.replace(",", "."),
-      salePrice: salePrice.replace(",", "."),
-      purchaseDate,
-      dueDate,
-      comments,
-      base64Image,
-    });
-    if (response?.status === 201) {
-      setSuccessMessage(
-        `O produto "${productName}", foi adicionado com sucesso!`
-      );
-      setIsFetching(false);
-      resetFields();
+    try {
+      setIsFetching(true);
+      const response = await addProduct({
+        productName,
+        costPrice: costPrice.replace(",", "."),
+        salePrice: salePrice.replace(",", "."),
+        purchaseDate,
+        dueDate,
+        comments,
+        base64Image,
+      });
+      if (response?.status === 201) {
+        setSuccessMessage(
+          `O produto "${productName}", foi adicionado com sucesso!`
+        );
+        setIsFetching(false);
+        resetFields();
+      }
+    } catch (error: any) {
+      setFetchError({ boolean: true, message: error.message });
     }
   };
 
@@ -123,7 +122,14 @@ function RegisterProducts() {
     return () => clearTimeout(timeoutId);
   }, [successMessage]);
 
-  return (
+  return fetchError.boolean ? (
+    <LoadingContent>
+      <Heading>
+        Erro ao carregar api, contate o suporte. Error message:{" "}
+        {fetchError.message}
+      </Heading>
+    </LoadingContent>
+  ) : (
     <BoxForm
       style={{ margin: "40px auto" }}
       onSubmit={handleSubmit}
@@ -195,7 +201,7 @@ function RegisterProducts() {
       {registerError && <ErrorText>{registerError}</ErrorText>}
       {successMessage && <SuccessText>{successMessage}</SuccessText>}
       <StyledButton disabled={isFetching} type="submit">
-        Registrar produto
+        {isFetching ? <Loading forButton /> : "Registrar produto"}
       </StyledButton>
     </BoxForm>
   );

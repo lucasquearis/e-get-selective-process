@@ -94,7 +94,7 @@ Abra outro terminal para subir o front-end, entre no repositório raiz do projet
 ```bash
    cd front-end
    yarn
-   yarn start
+   yarn dev
 ```
 
 Com o back-end iniciado acesse o front-end através desse link:

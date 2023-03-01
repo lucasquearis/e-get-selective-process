@@ -12,6 +12,7 @@ import { createUser } from "../../utils/api";
 import { SuccessText } from "../../components/Text/Success";
 import { useAppSelector } from "../../hooks";
 import { ButtonContainer } from "../Login";
+import Loading from "../../components/Loading";
 
 interface ICheckUserData {
   fullName: string;
@@ -29,7 +30,8 @@ function Register() {
   const { user: userRedux } = useAppSelector((state) => state);
   const [registerError, setRegisterError] = useState("");
   const [isAnAdministrator, setIsAnAdministrator] = useState(true);
-  const [isFetching, setIsFetchig] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [fetchError, setFetchError] = useState({ boolean: false, message: "" });
   const [successMessage, setSuccessMessage] = useState("");
   const [sucessTimer, setSuccessTimer] = useState(5);
 
@@ -61,16 +63,20 @@ function Register() {
 
     if (errorMessage) return setRegisterError(errorMessage);
 
-    setIsFetchig(true);
-    const response = await createUser({
-      fullName,
-      userName,
-      password,
-      isAnAdministrator,
-    });
+    try {
+      setIsFetching(true);
+      const response = await createUser({
+        fullName,
+        userName,
+        password,
+        isAnAdministrator,
+      });
 
-    if (response?.status === 201) {
-      setSuccessMessage("Conta criada com sucesso!");
+      if (response?.status === 201) {
+        setSuccessMessage("Conta criada com sucesso!");
+      }
+    } catch (error: any) {
+      setFetchError({ boolean: true, message: error.message });
     }
   };
 
@@ -89,9 +95,18 @@ function Register() {
   }, [registerError]);
 
   useEffect(() => {
+    if (!fetchError.boolean) return;
+    setIsFetching(false);
+    const timer = setTimeout(() => {
+      setFetchError({ boolean: false, message: "" });
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [fetchError]);
+
+  useEffect(() => {
     if (!successMessage) return;
     if (sucessTimer === -1) {
-      setIsFetchig(false);
+      setIsFetching(false);
       return navigate("/");
     }
     const intervalId = setInterval(() => {
@@ -101,7 +116,10 @@ function Register() {
   }, [successMessage, sucessTimer]);
 
   return (
-    <BoxForm style={{ margin: "40px auto" }} onSubmit={handleSubmit}>
+    <BoxForm
+      style={{ margin: "40px auto", maxWidth: 270 }}
+      onSubmit={handleSubmit}
+    >
       <Heading>Registre-se!</Heading>
       <StyledLabel>
         Nome completo:
@@ -128,6 +146,12 @@ function Register() {
       </div>
       <div>
         {registerError && <ErrorText>{registerError}</ErrorText>}
+        {fetchError.boolean && (
+          <ErrorText>
+            Erro ao carregar api, contate o suporte. Error message:{" "}
+            {fetchError.message}
+          </ErrorText>
+        )}
         {successMessage && (
           <SuccessText>
             {successMessage}
@@ -137,7 +161,7 @@ function Register() {
       </div>
       <ButtonContainer>
         <StyledButton disabled={isFetching} type="submit">
-          Registrar
+          {isFetching ? <Loading forButton /> : "Registrar"}
         </StyledButton>
         <NoStyleButton
           style={{ marginTop: 25 }}
