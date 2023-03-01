@@ -11,6 +11,7 @@ A aplicação possui as seguintes funcionalidades:
 ## Sumário
 
 - [Iniciando a Aplicação](#initApp)
+- [Testes](#tests)
 - [Ferramentas Utilizadas](#frameworks)
 
 # <a name="initApp"></a> Iniciando a Aplicação
@@ -102,9 +103,22 @@ Com o back-end iniciado acesse o front-end através desse link:
 
 </details>
 
+# <a name="tests"></a> Testes
+
+![Covarage tests](./testes_e-get.png "Coverage tests")
+
+Para conferir os testes, basta acessar o diretório do front-end e seguir os seguintes comandos:
+
+```bash
+cd front-end
+yarn test
+yarn coverage
+```
+
 # <a name="frameworks"></a> Ferramentas Utilizadas
 
 ```json
+{
   "dependencies": {
     "json-server": "0.17.2",
     "@reduxjs/toolkit": "1.9.3",
@@ -122,6 +136,9 @@ Com o back-end iniciado acesse o front-end através desse link:
   },
   "devDependencies": {
     "@ant-design/icons": "5.0.1",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "14.0.0",
+    "@types/jest": "29.4.0",
     "@types/node": "18.14.1",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
@@ -132,13 +149,19 @@ Com o back-end iniciado acesse o front-end através desse link:
     "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@vitejs/plugin-react": "3.1.0",
+    "@vitest/coverage-c8": "0.29.2",
     "eslint": "8.0.1",
     "eslint-config-standard-with-typescript": "34.0.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-n": "15.0.0",
     "eslint-plugin-promise": "6.0.0",
     "eslint-plugin-react": "7.32.2",
+    "jest-styled-components": "7.1.1",
+    "jsdom": "21.1.0",
+    "resize-observer-polyfill": "1.5.1",
     "typescript": "*",
-    "vite": "4.1.0"
+    "vite": "4.1.0",
+    "vitest": "0.29.2"
   }
+}
 ```
