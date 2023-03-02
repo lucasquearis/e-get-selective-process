@@ -21,7 +21,7 @@ const FlexWithGap = styled.div`
   align-items: center;
 `;
 interface IEditProductModal {
-  setOpenModal: Dispatch<React.SetStateAction<boolean>>;
+  setOpenModal: Dispatch<SetStateAction<boolean>>;
   fetchApi: () => void;
   currentProduct: IProduct;
 }

@@ -1,9 +1,8 @@
 import { useRouteError, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Heading } from "../../components/Text/Heading";
 
 const PageContent = styled.div`
-  max-width: 1440px;
-  height: 100vh;
   background-color: ${({ theme }) => theme.color.background};
   display: flex;
   justify-content: center;
@@ -19,8 +18,8 @@ export default function ErrorHandler() {
 
   return (
     <PageContent>
-      <h1>Oops!</h1>
-      <p>{`Sorry, but this page does not exist :(`}</p>
+      <Heading>Oops!</Heading>
+      <p>{`Desculpa, mas essa página não existe :(`}</p>
       <p>
         <i>Reason: {error.statusText || error.message}</i>
       </p>

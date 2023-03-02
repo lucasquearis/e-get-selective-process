@@ -17,7 +17,11 @@ const router = createBrowserRouter([
         <Login />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
   {
     path: "/register",
@@ -26,7 +30,11 @@ const router = createBrowserRouter([
         <Register />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
   {
     path: "/home",
@@ -35,7 +43,11 @@ const router = createBrowserRouter([
         <Home />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
   {
     path: "/home/register",
@@ -44,7 +56,11 @@ const router = createBrowserRouter([
         <RegisterProducts />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
   {
     path: "/home/dashboard",
@@ -53,7 +69,11 @@ const router = createBrowserRouter([
         <DashBoard />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
   {
     path: "/home/stock",
@@ -62,7 +82,11 @@ const router = createBrowserRouter([
         <ClassInterceptor />
       </DefaultWrapper>
     ),
-    errorElement: <ErrorHandler />,
+    errorElement: (
+      <DefaultWrapper>
+        <ErrorHandler />
+      </DefaultWrapper>
+    ),
   },
 ]);
 

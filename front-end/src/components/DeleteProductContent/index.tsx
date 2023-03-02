@@ -65,21 +65,19 @@ function DeleteProductContent({
 
   const confirmDelete = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
-    const selectedResponse = e.target[0].value;
-    if (selectedResponse === "Produto vendido") {
+    if (productStatus === "Produto vendido") {
       checkToSold();
     }
-    if (selectedResponse === "Produto perdido") {
+    if (productStatus === "Produto perdido") {
       const lostResponse = await addToLoss(currentProduct);
       deleteDefault(lostResponse);
     }
-    if (selectedResponse === "Produto vencido") {
+    if (productStatus === "Produto vencido") {
       const expiredResponse = await addToExpired(currentProduct);
       deleteDefault(expiredResponse);
     }
     if (
-      selectedResponse === "Produto adicionado sem querer" &&
+      productStatus === "Produto adicionado sem querer" &&
       currentProduct.id
     ) {
       await deleteProduct(currentProduct.id);
