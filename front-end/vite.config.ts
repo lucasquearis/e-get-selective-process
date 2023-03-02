@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  root: "src",
+  // root: "src",
   define: {
     "process.env": {
       BD_URL_LOCAL: "http://localhost:8080/",
