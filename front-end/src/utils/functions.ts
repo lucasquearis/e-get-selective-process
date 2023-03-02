@@ -27,7 +27,7 @@ export const checkRequiredFields = ({
 }: IRequiredFields) => {
   if (!productName) return "O nome do produto é obrigatório!";
   if (!costPrice) return "Preço de custo é obrigatório!";
-  if (!salePrice) return "Sale price is required!";
+  if (!salePrice) return "O preço de venda é obrigatório!";
   if (!purchaseDate) return "O preço de venda é obrigatório!";
   if (!dueDate) return "A data de vencimento é obrigatória!";
   if (

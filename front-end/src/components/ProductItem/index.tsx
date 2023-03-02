@@ -49,7 +49,14 @@ const ProductItem = memo(function ProductItem({
       <StyledList style={{ padding: "30px 0" }}>
         <Paragraph>{product.id}</Paragraph>
         <Paragraph>
-          {<img width={40} height={40} src={product.base64Image}></img>}
+          {
+            <img
+              width={40}
+              height={40}
+              style={{ objectFit: "contain" }}
+              src={product.base64Image}
+            ></img>
+          }
         </Paragraph>
         <Paragraph>{product.productName}</Paragraph>
         <Paragraph>{product.purchaseDate}</Paragraph>

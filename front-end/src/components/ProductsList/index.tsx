@@ -35,4 +35,5 @@ export const StyledHeader = styled(StyledList)`
   background-color: ${({ theme }) => theme.color.white};
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   z-index: 20;
+  width: max-content;
 `;

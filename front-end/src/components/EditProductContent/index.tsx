@@ -138,7 +138,12 @@ function EditProductContent({
                 />
               </>
             ) : (
-              <img width={100} height={100} src={base64Image.value} />
+              <img
+                width={100}
+                height={100}
+                style={{ objectFit: "contain" }}
+                src={base64Image.value}
+              />
             )}
             <EditIcon onClick={() => setBase64Image(handleIsEditing)} />
           </FlexWithGap>

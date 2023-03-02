@@ -84,36 +84,42 @@ function StyledPieChart({ products }: IProductsChart) {
     () =>
       Object.values(products)
         .map((product) => {
-          let loss = 0;
-          let profit = 0;
+          let cashOut = 0;
+          let cashIn = 0;
+
+          if (product.activeProducts) {
+            product.activeProducts.forEach(({ costPrice }) => {
+              cashOut += Number(costPrice);
+            });
+          }
 
           if (product.soldProducts) {
             product.soldProducts.forEach(({ costPrice, salePrice }) => {
               if (Number(salePrice) - Number(costPrice) > 0) {
-                profit += Number(salePrice) - Number(costPrice);
+                cashIn += Number(salePrice) - Number(costPrice);
               } else {
-                loss += Number(costPrice) - Number(salePrice);
+                cashOut += Number(costPrice) - Number(salePrice);
               }
             });
           }
 
           if (product.expiredProducts) {
             product.expiredProducts.forEach(({ costPrice }) => {
-              loss += Number(costPrice);
+              cashOut += Number(costPrice);
             });
           }
 
-          if (product.expiredProducts) {
-            product.expiredProducts.forEach(({ costPrice }) => {
-              loss += Number(costPrice);
+          if (product.lostProducts) {
+            product.lostProducts.forEach(({ costPrice }) => {
+              cashOut += Number(costPrice);
             });
           }
-          return { loss, profit };
+          return { cashOut, cashIn };
         })
         .reduce(
           (acc, curr) => {
-            acc[0].value += curr.profit;
-            acc[1].value += curr.loss;
+            acc[0].value += curr.cashIn;
+            acc[1].value += curr.cashOut;
             return acc;
           },
           [

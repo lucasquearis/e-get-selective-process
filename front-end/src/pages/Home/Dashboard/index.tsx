@@ -94,47 +94,50 @@ function DashBoard() {
     [products]
   );
 
-  const prepareProductsBase = ({
-    productsFetch,
-    productsLossFetch,
-    productsSoldFetch,
-    productsExpiredFetch,
-  }: IPrepareProducts) => {
-    const newProductsFormat = {
-      activeProducts: productsFetch.map(formatMapProducts),
-      soldProducts: productsSoldFetch.map(formatMapProducts),
-      lostProducts: productsLossFetch.map(formatMapProducts),
-      expiredProducts: productsExpiredFetch.map(formatMapProducts),
-    };
+  const prepareProductsBase = useCallback(
+    ({
+      productsFetch,
+      productsLossFetch,
+      productsSoldFetch,
+      productsExpiredFetch,
+    }: IPrepareProducts) => {
+      const newProductsFormat = {
+        activeProducts: productsFetch.map(formatMapProducts),
+        soldProducts: productsSoldFetch.map(formatMapProducts),
+        lostProducts: productsLossFetch.map(formatMapProducts),
+        expiredProducts: productsExpiredFetch.map(formatMapProducts),
+      };
 
-    const groupedProducts = Object.values(newProductsFormat)
-      .flat()
-      .reduce(
-        (
-          acc: { [key: string]: { [key: string]: IProduct[] } },
-          curr: IProduct
-        ) => {
-          const purchaseDate = curr.purchaseDate;
-          const productType = Object.keys(newProductsFormat).find((type) =>
-            newProductsFormat[type as keyof typeof newProductsFormat].includes(
-              curr
-            )
-          );
-          if (!acc[purchaseDate]) {
-            acc[purchaseDate] = {};
-          }
-          if (!acc[purchaseDate][productType as string]) {
-            acc[purchaseDate][productType as string] = [];
-          }
-          acc[purchaseDate][productType as string].push(curr);
-          return acc;
-        },
-        {}
-      );
-    setProducts(groupedProducts);
-  };
+      const groupedProducts = Object.values(newProductsFormat)
+        .flat()
+        .reduce(
+          (
+            acc: { [key: string]: { [key: string]: IProduct[] } },
+            curr: IProduct
+          ) => {
+            const purchaseDate = curr.purchaseDate;
+            const productType = Object.keys(newProductsFormat).find((type) =>
+              newProductsFormat[
+                type as keyof typeof newProductsFormat
+              ].includes(curr)
+            );
+            if (!acc[purchaseDate]) {
+              acc[purchaseDate] = {};
+            }
+            if (!acc[purchaseDate][productType as string]) {
+              acc[purchaseDate][productType as string] = [];
+            }
+            acc[purchaseDate][productType as string].push(curr);
+            return acc;
+          },
+          {}
+        );
+      setProducts(groupedProducts);
+    },
+    []
+  );
 
-  const getAllProductsInDB = async () => {
+  const getAllProductsInDB = useCallback(async () => {
     setIsFetching(true);
     try {
       const [
@@ -158,7 +161,7 @@ function DashBoard() {
       setFetchError({ boolean: true, message: error.message });
     }
     setIsFetching(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (!userRedux.isAnAdministrator) {
